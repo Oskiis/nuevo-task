@@ -1,0 +1,55 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 16px;
+    background-color: #fff;
+    height: 100vh;
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .input {
+    height: 50px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .button {
+    background-color: #87ceeb;
+    border-radius: 20px;
+    padding: 15px;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  
+  .forgotButton {
+    background: none;
+    border: none;
+    color: #808080;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  
+  .orText {
+    text-align: center;
+    color: #808080;
+  }
+  
+  .socialButton {
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    padding: 15px;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  

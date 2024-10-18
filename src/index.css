@@ -1,13 +1,84 @@
+/* src/index.css */
 body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-color: #e9ecef; /* Color de fondo suave */
+  font-family: 'Arial', sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.container {
+  text-align: center;
+  padding: 40px;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  max-width: 450px; /* Ajusta el ancho máximo */
+  width: 90%;
+}
+
+.logo {
+  width: 180px; /* Tamaño del logo */
+  margin-bottom: 30px; /* Mayor separación */
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 25px; /* Mayor separación */
+  font-size: 2em; /* Tamaño de fuente más grande */
+}
+
+.login-button {
+  background-color: #007bff; /* Azul más intenso */
+  border: none;
+  color: white;
+  padding: 15px 30px; /* Más padding */
+  border-radius: 30px; /* Bordes más redondeados */
+  cursor: pointer;
+  font-size: 18px; /* Tamaño de fuente del botón */
+  transition: background-color 0.3s, transform 0.3s;
+  margin-bottom: 20px; /* Separación con el texto de registro */
+}
+
+.login-button:hover {
+  background-color: #0056b3; /* Color más oscuro al pasar el mouse */
+  transform: translateY(-3px); /* Efecto de elevación */
+}
+
+.register-prompt {
+  margin-top: 20px; /* Separación superior */
+  font-size: 16px; /* Tamaño de fuente */
+  color: #666;
+}
+
+.register-prompt a {
+  color: #007bff; /* Color del enlace */
+  text-decoration: none;
+}
+
+.register-prompt a:hover {
+  text-decoration: underline; /* Subrayar al pasar el mouse */
+}
+
+/* Media Queries para Responsividad */
+@media (max-width: 768px) {
+  .container {
+    padding: 30px;
+    max-width: 90%;
+  }
+
+  .logo {
+    width: 150px;
+  }
+
+  h1 {
+    font-size: 1.8em;
+  }
+
+  .login-button {
+    width: 100%;
+    font-size: 18px;
+  }
 }

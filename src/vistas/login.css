@@ -1,0 +1,54 @@
+/* src/vistas/login.css */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #f8f9fa; /* Color de fondo claro */
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px; /* Ancho máximo del contenedor */
+    margin: auto; /* Centrar en la pantalla */
+  }
+  
+  h1 {
+    color: #333;
+    margin-bottom: 20px; /* Espaciado inferior */
+  }
+  
+  input {
+    width: 100%; /* Ancho completo */
+    padding: 12px 15px; /* Espaciado interno */
+    margin-bottom: 15px; /* Espaciado inferior */
+    border: 1px solid #ccc; /* Borde gris claro */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 16px; /* Tamaño de fuente */
+  }
+  
+  input:focus {
+    border-color: #007bff; /* Borde azul al enfocar */
+    outline: none; /* Sin contorno */
+  }
+  
+  button {
+    background-color: #007bff; /* Color del botón */
+    color: white;
+    padding: 12px 20px; /* Espaciado interno */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor de mano */
+    font-size: 16px; /* Tamaño de fuente */
+    transition: background-color 0.3s; /* Transición suave */
+  }
+  
+  button:hover {
+    background-color: #0056b3; /* Color más oscuro al pasar el mouse */
+  }
+  
+  .error {
+    color: red; /* Color rojo para mensajes de error */
+    margin-bottom: 15px; /* Espaciado inferior */
+  }
+  
