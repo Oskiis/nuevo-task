@@ -1,0 +1,79 @@
+/* src/vistas/notas.css */
+.notas-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    height: 100vh;
+  }
+  
+  h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .crear-tarea-button {
+    background-color: #87CEEB; /* Azul cielo */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  
+  .crear-tarea-button:hover {
+    background-color: #00BFFF; /* Azul más intenso */
+  }
+  
+  .tareas-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 50px; /* Para que no se solape con el menú inferior */
+  }
+  
+  .tarea {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .tarea h3 {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .tarea p {
+    margin: 0;
+    color: #555;
+  }
+  
+  /* Menú inferior */
+  .menu-inferior {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    background-color: #fff;
+    padding: 10px 0;
+    border-top: 1px solid #ddd;
+  }
+  
+  .menu-inferior a {
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+  }
+  
+  .menu-inferior a:hover {
+    color: #87CEEB; /* Azul cielo */
+  }
+  

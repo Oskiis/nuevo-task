@@ -1,42 +1,36 @@
-// src/index.js
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { Link, Route, BrowserRouter as Router, Routes } from 'react-router-dom'; // Cambiado Switch a Routes
+import { Link, Route, BrowserRouter as Router, Routes, useNavigate } from 'react-router-dom';
 import logo from './assets/images/logo.jpeg';
-import './index.css'; // Asegúrate de tener estilos aquí
-import Login from './vistas/login'; // Importa el componente de login
-import Registrar from './vistas/registrar'; // Importa el componente de registrar
+import './index.css';
+import Ajustes from './vistas/ajustes';
+import Login from './vistas/login';
+import NewTask from './vistas/newtask';
+import Notas from './vistas/notas';
+import Registrar from './vistas/registrar';
 
 const App = () => {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        // Usuario está logueado
         setUser(user);
+        navigate('/notas', { state: { uid: user.uid } }); // Redirige a notas.js con el uid
       } else {
-        // Usuario no está logueado
         setUser(null);
       }
     });
-
-    return () => unsubscribe(); // Limpiar el listener al desmontar
-  }, []);
+    return () => unsubscribe();
+  }, [navigate]);
 
   return (
     <div className="container">
       <img src={logo} alt="Logo" className="logo" />
-      {user ? (
-        <>
-          <h1>¡Bienvenido, {user.displayName || user.email}!</h1>
-          <Link to="/logout">
-            <button className="logout-button">Cerrar Sesión</button>
-          </Link>
-        </>
-      ) : (
+      {!user && (
         <>
           <h1>¡Bienvenidos!</h1>
           <Link to="/login">
@@ -54,9 +48,12 @@ const App = () => {
 ReactDOM.render(
   <Router>
     <Routes>
-      <Route path="/login" element={<Login />} /> {/* Cambiado a element */}
-      <Route path="/registrar" element={<Registrar />} /> {/* Agrega la ruta para registrar */}
-      <Route path="/" element={<App />} /> {/* Cambiado a element */}
+      <Route path="/" element={<App />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/registrar" element={<Registrar />} />
+      <Route path="/notas" element={<Notas />} />
+      <Route path="/newtask" element={<NewTask />} />
+      <Route path="/ajustes" element={<Ajustes />} />
     </Routes>
   </Router>,
   document.getElementById('root')
