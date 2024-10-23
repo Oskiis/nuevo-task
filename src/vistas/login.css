@@ -8,8 +8,8 @@
     background-color: #f8f9fa; /* Color de fondo claro */
     border-radius: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 400px; /* Ancho máximo del contenedor */
+    width: 100%;
+    max-width: 300px; /* Ancho máximo del contenedor */
     margin: auto; /* Centrar en la pantalla */
   }
   
@@ -19,7 +19,7 @@
   }
   
   input {
-    width: 100%; /* Ancho completo */
+    width: 90%; /* Ancho completo */
     padding: 12px 15px; /* Espaciado interno */
     margin-bottom: 15px; /* Espaciado inferior */
     border: 1px solid #ccc; /* Borde gris claro */
@@ -41,10 +41,13 @@
     cursor: pointer; /* Cursor de mano */
     font-size: 16px; /* Tamaño de fuente */
     transition: background-color 0.3s; /* Transición suave */
-  }
+    display: block;
+    margin: 0 auto;
+}
   
   button:hover {
     background-color: #0056b3; /* Color más oscuro al pasar el mouse */
+  
   }
   
   .error {
