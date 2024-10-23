@@ -1,4 +1,4 @@
-// src/vistas/registrar.js
+
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes } from 'firebase/storage';
@@ -20,28 +20,28 @@ const Registrar = () => {
   const handleRegistro = async (e) => {
     e.preventDefault();
     try {
-      // Crear usuario en Firebase Authentication
+    
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Subir foto de perfil a Firebase Storage
+   
       if (fotoPerfil) {
         const storageRef = ref(storage, `fotosPerfil/${user.uid}`);
         await uploadBytes(storageRef, fotoPerfil);
       }
 
-      // Almacenar datos del usuario en Firestore
+
       await setDoc(doc(db, 'Usuarios', user.uid), {
         uid: user.uid,
         nombre,
         apellidoPaterno,
         apellidoMaterno,
         email,
-        contraseña: password, // Considera usar un hash en lugar de almacenar la contraseña en texto plano
-        fotoPerfil: `fotosPerfil/${user.uid}` // Referencia a la foto de perfil en Storage
+        contraseña: password, 
+        fotoPerfil: `fotosPerfil/${user.uid}` 
       });
 
-      navigate('/'); // Redirigir a la página principal
+      navigate('/'); 
     } catch (err) {
       setError('Error al registrar: ' + err.message);
     }

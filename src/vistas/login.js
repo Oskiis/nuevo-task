@@ -2,7 +2,7 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth } from '../config/firebase'; // Asegúrate de que esta ruta sea correcta
+import { auth } from '../config/firebase';
 import './login.css';
 
 const Login = () => {
@@ -15,7 +15,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate('/'); // Redirigir a index.js si el login es exitoso
+      navigate('/'); 
     } catch (err) {
       setError('Error al iniciar sesión. Verifica tus credenciales.');
     }
