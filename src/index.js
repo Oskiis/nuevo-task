@@ -32,7 +32,7 @@ const App = () => {
       <img src={logo} alt="Logo" className="logo" />
       {!user && (
         <>
-          <h1>¡Bienvenidos!</h1>
+          <h1>¡Bienvenido!</h1>
           <Link to="/login">
             <button className="login-button">Iniciar Sesión</button>
           </Link>
