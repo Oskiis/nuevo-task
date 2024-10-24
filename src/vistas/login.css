@@ -3,21 +3,23 @@
   display: flex;
   height: 100vh;
   background-color: #f0f0f0;
+  width: 100%;
 }
 
 /* Contenedor de la imagen */
 .image-container {
   flex: 1;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #fff; /* Fondo blanco como en la captura */
+  justify-content: center; /* Centrar horizontalmente */
+  align-items: center; /* Centrar verticalmente */
+  background-color: #fff;
+  margin-bottom: 0px;
 }
 
 .image-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* La imagen llena todo el espacio sin distorsionarse */
+  max-width: 80%; /* Ajusta el tamaño de la imagen para que no ocupe todo el ancho */
+  max-height: 80%; /* Evita que la imagen ocupe todo el alto */
+  object-fit: contain; /* Mantiene las proporciones de la imagen */
 }
 
 /* Contenedor del formulario */
@@ -28,6 +30,7 @@
   align-items: center;
   background-color: #f9f9f9;
   padding: 2rem;
+
 }
 
 /* Caja del formulario de login */
@@ -112,3 +115,87 @@ form button:hover {
   color: red;
   margin-top: 0.5rem;
 }
+
+/* Botón "Olvidé mi contraseña" */
+.forgot-password button {
+  margin-top: 1rem;
+  background-color: transparent;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+}
+
+.forgot-password button:hover {
+  text-decoration: underline;
+}
+
+/* Recordarme */
+.remember-me {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.remember-me label {
+  font-size: 0.9rem;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Separador OR */
+.separator {
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.separator span {
+  padding: 0 10px;
+  background-color: #fff;
+  position: relative;
+}
+
+.separator::before {
+  content: '';
+  height: 1px;
+  width: 100%;
+  background-color: #ccc;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  z-index: -1;
+}
+
+/* Botones de inicio de sesión con redes sociales */
+.social-login {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.social-login button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.facebook-login {
+  background-color: #3b5998;
+  color: white;
+}
+
+.google-login {
+  background-color: #db4437;
+  color: white;
+  
+}
+
+.social-icon {
+  margin-right: 0.5rem;
+}
+

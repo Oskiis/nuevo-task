@@ -3,12 +3,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../config/firebase';
 import { FaUserCircle } from 'react-icons/fa'; // Icono de avatar
+import { FaFacebook, FaGoogle } from 'react-icons/fa'; // Iconos de Facebook y Google
 import './login.css';
-
+import '../assets/images/logo.jpeg';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -16,7 +18,10 @@ const Login = () => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate('/'); 
+      if (rememberMe) {
+        // Aquí puedes manejar el "Recordarme" con localStorage o cookies si es necesario
+      }
+      navigate('/');
     } catch (err) {
       setError('Error al iniciar sesión. Verifica tus credenciales.');
     }
@@ -25,7 +30,7 @@ const Login = () => {
   return (
     <div className="login-page">
       <div className="image-container">
-        <img src="assets/images/logo.jpeg" alt="logo" />
+        <img src={require('../assets/images/logo.jpeg')} alt="logo" />
       </div>
       <div className="form-container">
         <div className="login-box">
@@ -53,7 +58,40 @@ const Login = () => {
             />
             <button type="submit">Iniciar sesión</button>
           </form>
-       
+          
+          {/* Botón de "Olvidé mi contraseña" */}
+          <div className="forgot-password">
+            <button type="button" onClick={() => navigate('/reset-password')}>
+              Olvidé mi contraseña
+            </button>
+          </div>
+
+          {/* Casilla de verificación "Recordarme" */}
+          <div className="remember-me">
+            <label>
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+              />
+              Recordarme
+            </label>
+          </div>
+
+          {/* Separador con "OR" */}
+          <div className="separator">
+            <span>OR</span>
+          </div>
+
+          {/* Botones de inicio de sesión con Facebook y Google */}
+          <div className="social-login">
+            <button type="button" className="facebook-login">
+              <FaFacebook className="social-icon" /> Continuar con Facebook
+            </button>
+            <button type="button" className="google-login">
+              <FaGoogle className="social-icon" /> Continuar con Google
+            </button>
+          </div>
         </div>
       </div>
     </div>
