@@ -30,7 +30,12 @@ const Login = () => {
   return (
     <div className="login-page">
       <div className="image-container">
-        <img src={require('../assets/images/logo.jpeg')} alt="logo" />
+        <img
+          src={require('../assets/images/logo.jpeg')}
+          alt="logo"
+          onClick={() => navigate('/')} // Redirige al inicio al hacer clic
+          style={{ cursor: 'pointer' }} // Cambia el cursor a pointer para indicar que es clickeable
+        />
       </div>
       <div className="form-container">
         <div className="login-box">
