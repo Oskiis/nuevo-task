@@ -1,6 +1,7 @@
 /* Estructura general */
 .login-page {
   display: flex;
+  flex-direction: column; /* Cambia la dirección para móviles */
   height: 100vh;
   background-color: #f0f0f0;
   width: 100%;
@@ -10,16 +11,16 @@
 .image-container {
   flex: 1;
   display: flex;
-  justify-content: center; /* Centrar horizontalmente */
-  align-items: center; /* Centrar verticalmente */
+  justify-content: center;
+  align-items: center;
   background-color: #fff;
   margin-bottom: 0px;
 }
 
 .image-container img {
-  max-width: 80%; /* Ajusta el tamaño de la imagen para que no ocupe todo el ancho */
-  max-height: 80%; /* Evita que la imagen ocupe todo el alto */
-  object-fit: contain; /* Mantiene las proporciones de la imagen */
+  max-width: 90%; /* Ajusta el tamaño para pantallas pequeñas */
+  max-height: 80%; 
+  object-fit: contain;
 }
 
 /* Contenedor del formulario */
@@ -30,7 +31,6 @@
   align-items: center;
   background-color: #f9f9f9;
   padding: 2rem;
-
 }
 
 /* Caja del formulario de login */
@@ -44,10 +44,37 @@
   text-align: center;
 }
 
-/* Icono de avatar */
-.avatar-icon {
-  font-size: 4rem;
-  color: #999;
+/* Media Queries para responsividad */
+@media (max-width: 768px) {
+  .login-page {
+    flex-direction: column; /* Cambia la dirección a columna en pantallas pequeñas */
+  }
+
+  .image-container {
+    height: 30vh; /* Ajusta la altura del contenedor de la imagen */
+  }
+
+  .form-container {
+    height: 70vh; /* Ajusta la altura del contenedor del formulario */
+    padding: 1rem; /* Reduce el padding en pantallas pequeñas */
+  }
+
+  .login-box {
+    padding: 1.5rem; /* Reduce el padding del formulario */
+    max-width: 90%; /* Aumenta el ancho máximo para pantallas pequeñas */
+  }
+
+  .avatar-icon {
+    font-size: 5rem; /* Reduce el tamaño del icono */
+  }
+
+  form button {
+    padding: 0.2rem; /* Reduce el padding del botón */
+  }
+
+  .social-login button {
+    padding: 0.5rem; /* Reduce el padding de los botones sociales */
+  }
 }
 
 /* Estilos para el formulario */
@@ -192,10 +219,8 @@ form button:hover {
 .google-login {
   background-color: #db4437;
   color: white;
-  
 }
 
 .social-icon {
   margin-right: 0.5rem;
 }
-
