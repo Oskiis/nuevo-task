@@ -15,7 +15,7 @@
   }
   
   .crear-tarea-button {
-    background-color: #87CEEB; /* Azul cielo */
+    background-color: #87CEEB; 
     color: white;
     padding: 10px 20px;
     border: none;
@@ -26,23 +26,18 @@
   }
   
   .crear-tarea-button:hover {
-    background-color: #00BFFF; /* Azul más intenso */
+    background-color: #00BFFF; 
   }
   
   .tareas-list {
     width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction:column;
     gap: 10px;
-    margin-bottom: 50px; /* Para que no se solape con el menú inferior */
+    margin-bottom: 50px; 
   }
   
-  .tarea {
-    background-color: #f9f9f9;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
+ 
   
   .tarea h3 {
     margin: 0 0 5px 0;
@@ -55,7 +50,7 @@
     color: #555;
   }
   
-  /* Menú inferior */
+
   .menu-inferior {
     display: flex;
     justify-content: space-around;
@@ -74,6 +69,66 @@
   }
   
   .menu-inferior a:hover {
-    color: #87CEEB; /* Azul cielo */
+    color: #87CEEB; 
+  }
+  
+
+ 
+
+
+
+  
+  
+
+
+  
+  .tarea {
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .tarea-imagen img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  
+  .tarea-info {
+    flex-grow: 1;
+    margin-left: 15px;
+  }
+  
+  .tarea-info h3 {
+    margin: 0;
+    font-size: 1.1em;
+  }
+  
+  .tarea-info p {
+    margin: 5px 0;
+    color: #666;
+  }
+  
+  .tarea-prioridad {
+    color: #fff;
+    background-color: #ff4500;
+    border-radius: 5px;
+    padding: 3px 8px;
+    font-size: 0.9em;
+    font-weight: bold;
+    align-self: flex-end;
+  }
+  
+
+
+
+
+  .tarea-roja {
+    background-color: red;
+    color: white;
   }
   

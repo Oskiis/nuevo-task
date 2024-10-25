@@ -1,11 +1,10 @@
-
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, db } from '../config/firebase';
-
+import './registrar.css';
 const Registrar = () => {
   const [nombre, setNombre] = useState('');
   const [apellidoPaterno, setApellidoPaterno] = useState('');
@@ -20,16 +19,13 @@ const Registrar = () => {
   const handleRegistro = async (e) => {
     e.preventDefault();
     try {
-    
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-   
       if (fotoPerfil) {
         const storageRef = ref(storage, `fotosPerfil/${user.uid}`);
         await uploadBytes(storageRef, fotoPerfil);
       }
-
 
       await setDoc(doc(db, 'Usuarios', user.uid), {
         uid: user.uid,
@@ -37,11 +33,11 @@ const Registrar = () => {
         apellidoPaterno,
         apellidoMaterno,
         email,
-        contraseña: password, 
-        fotoPerfil: `fotosPerfil/${user.uid}` 
+        contraseña: password,
+        fotoPerfil: `fotosPerfil/${user.uid}`
       });
 
-      navigate('/'); 
+      navigate('/');
     } catch (err) {
       setError('Error al registrar: ' + err.message);
     }
