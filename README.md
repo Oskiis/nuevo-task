@@ -1,3 +1,56 @@
+# Nombre del Proyecto
+
+Programación/App móvil para la Gestión de Tareas y Productividad Personal
+
+# Descripción del Proyecto
+
+Este proyecto consiste en una aplicación web responsiva, diseñada principalmente para dispositivos móviles. El objetivo de esta aplicación es mejorar la organización y gestión de tus tareas y actividades diarias.
+
+La aplicación facilitará a los usuarios administrar de manera eficiente sus responsabilidades, permitiendo un seguimiento claro y sencillo de lo que deben realizar. Con una interfaz intuitiva y accesible, se espera que los usuarios puedan planificar mejor su tiempo y aumentar su productividad.
+
+En resumen, esta herramienta busca transformar la manera en que las personas manejan sus tareas, ofreciendo una solución práctica y efectiva para una mejor administración de su día a día.
+
+
+# Dependencias
+
+1. @mui/material: Biblioteca de componentes de interfaz de usuario basada en Material Design, que ofrece elementos estilizados y listos para usar.
+
+2. @mui/lab: Incluye componentes adicionales que aún están en desarrollo o son experimentales para complementar la biblioteca de MUI.
+
+3. @emotion/react: Biblioteca para estilos en línea que permite la creación de estilos CSS en los componentes de React.
+
+4. @emotion/styled: Funciona junto con @emotion/react para permitir la creación de componentes estilizados con una sintaxis más sencilla.
+
+5. dayjs: Biblioteca para manejar fechas y horas de manera sencilla y eficiente, ideal para tareas que requieren manejo de tiempos.
+
+6. Firebase: Plataforma que proporciona servicios de backend como autenticación, base de datos en tiempo real, almacenamiento y más, facilitando el desarrollo de aplicaciones web y móviles.
+
+7. react-calendar: Componente de calendario para React que permite a los usuarios seleccionar fechas de manera intuitiva y fácil.
+
+8. @mui/x-date-pickers/MobileDateTimePicker: Componente de MUI que permite seleccionar fechas y horas de forma optimizada para dispositivos móviles.
+
+
+# Funcionalidades
+
+1. Iniciar Sesión: Los usuarios pueden acceder a su cuenta de manera segura a través de un proceso de inicio de sesión. Se requiere un correo electrónico y una contraseña válidos para garantizar la protección de los datos personales.
+
+2. Crear Cuentas: La aplicación permite a los nuevos usuarios registrarse y crear una cuenta. Este proceso incluye la recopilación de información básica, como nombre, correo electrónico y contraseña, para configurar su perfil.
+
+3. Cerrar Sesión: Los usuarios pueden cerrar su sesión en cualquier momento, asegurando que su información permanezca protegida. Esta funcionalidad es especialmente útil en dispositivos compartidos o públicos.
+
+4. Añadir Nuevas Tareas: Los usuarios pueden crear nuevas tareas fácilmente. Esta funcionalidad incluye campos para ingresar el título, descripción, fecha de vencimiento y prioridad de la tarea, así como la opción de adjuntar imágenes.
+
+5. Filtrar Tareas: La aplicación ofrece la posibilidad de filtrar las tareas según diferentes criterios, como estado (completadas o pendientes), prioridad o fecha de vencimiento. Esto facilita la organización y visualización de las tareas según las preferencias del usuario.
+
+6. Editar Tareas: Los usuarios pueden modificar cualquier tarea existente. Esta función permite actualizar el título, la descripción, la fecha de vencimiento, y otros detalles, lo que asegura que la información siempre esté actualizada.
+
+7. Eliminar Tareas: La aplicación permite a los usuarios eliminar tareas que ya no necesitan. Este proceso es sencillo y seguro, con una confirmación previa para evitar eliminaciones accidentales.
+
+8. Visualización en Calendario: Los usuarios pueden visualizar sus tareas próximas a vencer en un calendario integrado. Esta funcionalidad resalta las tareas según su fecha de vencimiento, permitiendo a los usuarios planificar mejor su tiempo y priorizar actividades importantes.
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
