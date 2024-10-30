@@ -118,11 +118,13 @@ const Notas = () => {
           <p>No hay tareas disponibles.</p>
         )}
 
-        <button className="crear-tarea-button">
-          <Link to="/newtask" state={{ uid }} style={{ color: 'white', textDecoration: 'none' }}>
-            + Crear nueva tarea
-          </Link>
+        <button className="crear-tarea-button" onClick={() => {
+              console.log('Botón de crear tarea presionado');
+              navigate('/newtask', { state: { uid } });
+            }}>
+              + Crear nueva tarea
         </button>
+
       </div>
       <div className="menu-inferior">
         <Link to="/">Inicio</Link>
