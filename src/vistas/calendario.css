@@ -1,0 +1,65 @@
+.calendario-container {
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.MuiTypography-h4 {
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  color: #000000;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.MuiChip-root {
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.MuiChip-root[style*="background-color: red"] {
+  background-color: #e57373 !important;
+}
+
+.MuiChip-root[style*="background-color: yellow"] {
+  background-color: #ffb74d !important;
+}
+
+.MuiChip-root[style*="background-color: green"] {
+  background-color: #81c784 !important;
+}
+
+/* Nuevas reglas para el calendario */
+.react-calendar {
+  color: black; /* Cambia el color del texto de todo el calendario a negro */
+}
+
+.react-calendar__tile {
+  color: black; /* Asegúrate de que los números de los días sean negros */
+}
+
+.react-calendar__navigation {
+  color: black; /* Cambia el color de las flechas de navegación a negro */
+}
+
+.react-calendar__navigation__prev-button,
+.react-calendar__navigation__next-button {
+  color: black; /* Asegúrate de que las flechas sean negras */
+}
+
+.react-calendar__navigation__label {
+  color: black; /* Cambia el color del mes y el año a negro */
+}
+
+.react-calendar__tile--active {
+  background-color: #007bff; /* Cambia esto al color que desees para el día activo */
+  color: white; /* Cambia el color del número del día activo si es necesario */
+}
+
+.react-calendar__tile--hasEvent {
+  font-weight: bold; /* O cualquier otro estilo que desees para las fechas con eventos */
+}

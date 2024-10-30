@@ -1,54 +1,90 @@
-/* src/vistas/login.css */
+
 .login-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    background-color: #f8f9fa; /* Color de fondo claro */
-    border-radius: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 400px; /* Ancho máximo del contenedor */
-    margin: auto; /* Centrar en la pantalla */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #ffffff; /* Color de fondo claro */
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 80%; /* Reduce el ancho del contenedor */
+  max-width: 320px; /* Ancho máximo más pequeño */
+  margin: 30px auto; /* Centrado en la pantalla */
+}
+
+.image-container {
+  height: 20vh; /* Altura más pequeña del contenedor de la imagen */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container {
+  width: 100%; /* Ancho completo del formulario */
+  padding: 0.8rem;
+}
+
+input {
+  width: 100%; /* Ancho completo */
+  padding: 8px 12px; /* Espaciado interno más pequeño */
+  margin-bottom: 10px; /* Menor espaciado inferior */
+  border: 1px solid #ccc; /* Borde gris claro */
+  border-radius: 6px; /* Bordes redondeados */
+  font-size: 14px; /* Tamaño de fuente reducido */
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+input:focus {
+  border-color: #0056b3; /* Borde azul al enfocar */
+  outline: none;
+}
+
+button {
+  width: 100%; /* Ancho completo */
+  background-color: #0056b3; /* Color del botón */
+  color: #ffffff;
+  padding: 10px 15px; /* Espaciado interno más reducido */
+  border: none;
+  border-radius: 6px; /* Bordes redondeados */
+  cursor: pointer;
+  font-size: 15px; /* Tamaño de fuente reducido */
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button + button {
+  margin-top: 10px; /* Espacio entre botones */
+}
+
+button:hover {
+  background-color: #004080; /* Color más oscuro al pasar el mouse */
+  transform: scale(1.02);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+.error {
+  color: red;
+  margin-bottom: 10px;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* Media query para pantallas pequeñas */
+@media (max-width: 576px) {
+  .login-container {
+      padding: 15px;
+      margin: 20px auto;
   }
-  
-  h1 {
-    color: #333;
-    margin-bottom: 20px; /* Espaciado inferior */
+  .form-container {
+      padding: 0.5rem;
   }
-  
-  input {
-    width: 100%; /* Ancho completo */
-    padding: 12px 15px; /* Espaciado interno */
-    margin-bottom: 15px; /* Espaciado inferior */
-    border: 1px solid #ccc; /* Borde gris claro */
-    border-radius: 5px; /* Bordes redondeados */
-    font-size: 16px; /* Tamaño de fuente */
-  }
-  
-  input:focus {
-    border-color: #007bff; /* Borde azul al enfocar */
-    outline: none; /* Sin contorno */
-  }
-  
   button {
-    background-color: #007bff; /* Color del botón */
-    color: white;
-    padding: 12px 20px; /* Espaciado interno */
-    border: none; /* Sin borde */
-    border-radius: 5px; /* Bordes redondeados */
-    cursor: pointer; /* Cursor de mano */
-    font-size: 16px; /* Tamaño de fuente */
-    transition: background-color 0.3s; /* Transición suave */
+      padding: 8px 12px;
+      font-size: 13px;
   }
-  
-  button:hover {
-    background-color: #0056b3; /* Color más oscuro al pasar el mouse */
-  }
-  
-  .error {
-    color: red; /* Color rojo para mensajes de error */
-    margin-bottom: 15px; /* Espaciado inferior */
-  }
-  
+}

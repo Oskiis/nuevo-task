@@ -132,3 +132,38 @@
     color: white;
   }
   
+
+
+
+  
+
+  .filtros {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .filtros select, .filtrar-button {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .filtros select:focus, .filtrar-button:focus {
+    outline: none;
+    border-color: #4caf50;
+  }
+  
+  .filtrar-button {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .filtrar-button:hover {
+    background-color: #45a049;
+  }
+  
