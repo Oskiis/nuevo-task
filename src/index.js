@@ -10,6 +10,7 @@ import Login from './vistas/login';
 import NewTask from './vistas/newtask';
 import Notas from './vistas/notas';
 import Registrar from './vistas/registrar';
+import RellenarDatos from './vistas/rellenarDatos';
 
 import Notaseditar from './vistas/notaseditar';
 const App = () => {
@@ -58,6 +59,7 @@ ReactDOM.render(
       <Route path="/ajustes" element={<Ajustes />} />
       <Route path="/notaseditar" element={<Notaseditar />} />
       <Route path="/calendario" element={<Calendario />} />
+      <Route path="/rellenarDatos" element={<RellenarDatos />} />
     </Routes>
   </Router>,
   document.getElementById('root')

@@ -1,8 +1,9 @@
-// src/vistas/login.js
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth } from '../config/firebase';
+import googleLogo from '../assets/images/Logo-google-icon-PNG.png';
+import { auth, db } from '../config/firebase';
 import './login.css';
 
 const Login = () => {
@@ -10,6 +11,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const googleProvider = new GoogleAuthProvider();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -18,6 +20,24 @@ const Login = () => {
       navigate('/'); 
     } catch (err) {
       setError('Error al iniciar sesión. Verifica tus credenciales.');
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+
+      const userDocRef = doc(db, 'Usuarios', user.uid);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        navigate('/notas'); 
+      } else {
+        navigate('/rellenarDatos');
+      }
+    } catch (err) {
+      setError('Error al iniciar sesión con Google.');
     }
   };
 
@@ -42,6 +62,14 @@ const Login = () => {
         />
         <button type="submit">Iniciar Sesión</button>
       </form>
+      <p className="or-text">- o -</p>
+      
+      <button onClick={handleGoogleLogin} className="google-login-button">
+        <img src={googleLogo} alt="Google logo" className="google-icon" />
+        Iniciar Sesión con Google
+      </button>
+
+
     </div>
   );
 };
