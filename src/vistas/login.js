@@ -1,4 +1,4 @@
-import { getRedirectResult, GoogleAuthProvider, signInWithEmailAndPassword, signInWithRedirect } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -13,11 +13,22 @@ const Login = () => {
   const navigate = useNavigate();
   const googleProvider = new GoogleAuthProvider();
 
+  // Verificar si el usuario ya está autenticado
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        navigate('/notas'); // Redirigir a notas si el usuario ya está autenticado
+      }
+    });
+    
+    return () => unsubscribe(); // Limpiar el listener
+  }, [navigate]);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate('/'); 
+      navigate('/notas'); 
     } catch (err) {
       setError('Error al iniciar sesión. Verifica tus credenciales.');
     }
@@ -25,32 +36,21 @@ const Login = () => {
 
   const handleGoogleLogin = async () => {
     try {
-      await signInWithRedirect(auth, googleProvider);
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+
+      const userDocRef = doc(db, 'Usuarios', user.uid);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        navigate('/notas'); 
+      } else {
+        navigate('/rellenarDatos');
+      }
     } catch (err) {
       setError('Error al iniciar sesión con Google.');
     }
   };
-
-  // Manejar el resultado de la redirección al volver
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const result = await getRedirectResult(auth);
-      if (result) {
-        const user = result.user;
-
-        const userDocRef = doc(db, 'Usuarios', user.uid);
-        const userDoc = await getDoc(userDocRef);
-
-        if (userDoc.exists()) {
-          navigate('/notas');
-        } else {
-          navigate('/rellenarDatos');
-        }
-      }
-    };
-    
-    fetchUserData();
-  }, [navigate]);
 
   return (
     <div className="login-container">
