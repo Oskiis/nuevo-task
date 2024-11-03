@@ -1,6 +1,6 @@
-import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { getRedirectResult, GoogleAuthProvider, signInWithEmailAndPassword, signInWithRedirect } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import googleLogo from '../assets/images/Logo-google-icon-PNG.png';
 import { auth, db } from '../config/firebase';
@@ -25,21 +25,32 @@ const Login = () => {
 
   const handleGoogleLogin = async () => {
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const user = result.user;
-
-      const userDocRef = doc(db, 'Usuarios', user.uid);
-      const userDoc = await getDoc(userDocRef);
-
-      if (userDoc.exists()) {
-        navigate('/notas'); 
-      } else {
-        navigate('/rellenarDatos');
-      }
+      await signInWithRedirect(auth, googleProvider);
     } catch (err) {
       setError('Error al iniciar sesión con Google.');
     }
   };
+
+  // Manejar el resultado de la redirección al volver
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const result = await getRedirectResult(auth);
+      if (result) {
+        const user = result.user;
+
+        const userDocRef = doc(db, 'Usuarios', user.uid);
+        const userDoc = await getDoc(userDocRef);
+
+        if (userDoc.exists()) {
+          navigate('/notas');
+        } else {
+          navigate('/rellenarDatos');
+        }
+      }
+    };
+    
+    fetchUserData();
+  }, [navigate]);
 
   return (
     <div className="login-container">
@@ -68,8 +79,6 @@ const Login = () => {
         <img src={googleLogo} alt="Google logo" className="google-icon" />
         Iniciar Sesión con Google
       </button>
-
-
     </div>
   );
 };
