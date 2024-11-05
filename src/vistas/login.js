@@ -79,6 +79,16 @@ const Login = () => {
         <img src={googleLogo} alt="Google logo" className="google-icon" />
         Iniciar Sesión con Google
       </button>
+
+      {/* Texto para restablecer contraseña */}
+      <p 
+        className="forgot-password-text" 
+        onClick={() => navigate('/restablecerContraseña')}
+        style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
+      >
+        ¿Olvidaste tu contraseña?
+      </p>
+
     </div>
   );
 };
