@@ -1,0 +1,48 @@
+.notas-editar-container {
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .notas-editar-container h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .notas-editar-container label {
+    display: block;
+    color: #666;
+    margin: 10px 0 5px;
+  }
+  
+  .notas-editar-container input,
+  .notas-editar-container select,
+  .notas-editar-container textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .notas-editar-container .editar-tarea-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4a90e2;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .notas-editar-container .editar-tarea-button:hover {
+    background-color: #357abd;
+  }
+  

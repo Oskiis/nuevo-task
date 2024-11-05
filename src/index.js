@@ -5,11 +5,13 @@ import { Link, Route, BrowserRouter as Router, Routes, useNavigate } from 'react
 import logo from './assets/images/logo.jpeg';
 import './index.css';
 import Ajustes from './vistas/ajustes';
+import Calendario from './vistas/calendario';
 import Login from './vistas/login';
 import NewTask from './vistas/newtask';
 import Notas from './vistas/notas';
 import Registrar from './vistas/registrar';
 
+import Notaseditar from './vistas/notaseditar';
 const App = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate(); 
@@ -54,6 +56,8 @@ ReactDOM.render(
       <Route path="/notas" element={<Notas />} />
       <Route path="/newtask" element={<NewTask />} />
       <Route path="/ajustes" element={<Ajustes />} />
+      <Route path="/notaseditar" element={<Notaseditar />} />
+      <Route path="/calendario" element={<Calendario />} />
     </Routes>
   </Router>,
   document.getElementById('root')

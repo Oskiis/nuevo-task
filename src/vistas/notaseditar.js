@@ -1,64 +1,88 @@
-// src/vistas/newtask.js
+
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 import dayjs from 'dayjs';
-import { addDoc, collection, getFirestore } from 'firebase/firestore';
+import { doc, getDoc, getFirestore, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import './newtask.css';
+import './notaseditar.css';
 
-const NewTask = () => {
+const NotasEditar = () => {
   const location = useLocation();
-  const { uid } = location.state || {};
+  const navigate = useNavigate();
+  const { tarea } = location.state || {};
+  
   const [titulo, setTitulo] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [fechaVencimiento, setFechaVencimiento] = useState(dayjs());
   const [prioridad, setPrioridad] = useState('Media');
   const [categoria, setCategoria] = useState('');
-  const [estado, setEstado] = useState('en proceso'); // Nuevo estado de tarea
+  const [estado, setEstado] = useState('en proceso');
   const [imagen, setImagen] = useState(null);
-  const navigate = useNavigate();
+  const [imageUrl, setImageUrl] = useState('');
+  const db = getFirestore();
+  const storage = getStorage();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const db = getFirestore();
-    const storage = getStorage();
-    let imageUrl = '';
+  useEffect(() => {
+    const cargarDatosTarea = async () => {
+      const tareaRef = doc(db, 'tareas', tarea.id);
+      const tareaSnap = await getDoc(tareaRef);
 
-    if (imagen) {
-      const imageRef = ref(storage, `tareas/${uid}_${Date.now()}`);
-      await uploadBytes(imageRef, imagen);
-      imageUrl = await getDownloadURL(imageRef);
+      if (tareaSnap.exists()) {
+        const data = tareaSnap.data();
+        setTitulo(data.titulo);
+        setDescripcion(data.descripcion);
+        setFechaVencimiento(dayjs(data.fechaVencimiento));
+        setPrioridad(data.prioridad);
+        setCategoria(data.categoria);
+        setEstado(data.estado);
+        if (data.imageUrl) {
+          setImageUrl(data.imageUrl);
+        }
+      }
+    };
+
+    if (tarea) {
+      cargarDatosTarea();
     }
+  }, [db, tarea]);
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
 
     try {
-      await addDoc(collection(db, 'tareas'), {
-        uid,
+      let updatedImageUrl = imageUrl;
+
+      if (imagen) {
+        const imageRef = ref(storage, `tareas/${tarea.uid}_${Date.now()}`);
+        await uploadBytes(imageRef, imagen);
+        updatedImageUrl = await getDownloadURL(imageRef);
+      }
+
+      const tareaRef = doc(db, 'tareas', tarea.id);
+      await updateDoc(tareaRef, {
         titulo,
         descripcion,
         fechaVencimiento: fechaVencimiento.format(),
         prioridad,
         categoria,
-        estado, // Guardando el nuevo estado en Firestore
-        imageUrl,
+        estado,
+        imageUrl: updatedImageUrl,
       });
-      navigate('/notas', { state: { uid } });
+
+      navigate('/notas', { state: { uid: tarea.uid } });
     } catch (error) {
-      console.error("Error al agregar la tarea: ", error);
+      console.error('Error al actualizar la tarea:', error);
     }
   };
 
-  if (!uid) {
-    return <div>Error: No se pudo obtener el UID del usuario.</div>;
-  }
-
   return (
-    <div className="new-task-container">
-      <h1>Crear nueva tarea</h1>
-      <form onSubmit={handleSubmit}>
+    <div className="notas-editar-container">
+      <h1>Editar Tarea</h1>
+      <form onSubmit={handleUpdate}>
         <label>Título de la tarea</label>
         <input
           type="text"
@@ -107,15 +131,15 @@ const NewTask = () => {
           required
         />
 
-        <label>Estado</label> {/* Nueva selección de estado */}
+        <label>Estado</label>
         <select
           value={estado}
           onChange={(e) => setEstado(e.target.value)}
           required
         >
-          <option value="en proceso">En proceso</option>
-          <option value="completado">Completado</option>
           <option value="finalizado">Finalizado</option>
+          <option value="completado">Completado</option>
+          <option value="en proceso">En proceso</option>
         </select>
 
         <label>Agregar Imagen</label>
@@ -125,12 +149,12 @@ const NewTask = () => {
           onChange={(e) => setImagen(e.target.files[0])}
         />
 
-        <button type="submit" className="agregar-tarea-button">
-          Agregar tarea
+        <button type="submit" className="editar-tarea-button">
+          Guardar Cambios
         </button>
       </form>
     </div>
   );
 };
 
-export default NewTask;
+export default NotasEditar;
