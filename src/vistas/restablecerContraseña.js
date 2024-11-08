@@ -8,7 +8,7 @@ const RestablecerContraseña = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-  const [showWarning, setShowWarning] = useState(true); 
+  const [showWarning, setShowWarning] = useState(true);
   const navigate = useNavigate();
 
   const closeWarning = () => {
@@ -22,14 +22,13 @@ const RestablecerContraseña = () => {
     }
 
     try {
-      
       const methods = await fetchSignInMethodsForEmail(auth, email);
       if (methods.includes('google.com')) {
         setError('Lo sentimos, no se puede restablecer la contraseña. Solo inicia sesión con tu cuenta de Google.');
+        setMessage(''); // Asegúrate de limpiar el mensaje en caso de error
         return;
       }
 
-      
       await sendPasswordResetEmail(auth, email);
       setMessage('Se ha enviado un enlace de recuperación a tu correo electrónico.');
       setError('');
@@ -67,6 +66,10 @@ const RestablecerContraseña = () => {
         <span className="back-arrow">←</span>
         <span className="back-text">Volver</span>
       </div>
+
+      {/* Mostrar mensaje de éxito o error */}
+      {message && <p className="success-message">{message}</p>}
+      {error && <p className="error-message">{error}</p>}
 
       {/* Ventana emergente de advertencia al inicio */}
       {showWarning && (

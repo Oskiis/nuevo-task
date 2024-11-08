@@ -1,10 +1,11 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, db } from '../config/firebase';
 import './registrar.css';
+
 const Registrar = () => {
   const [nombre, setNombre] = useState('');
   const [apellidoPaterno, setApellidoPaterno] = useState('');
@@ -13,6 +14,7 @@ const Registrar = () => {
   const [password, setPassword] = useState('');
   const [fotoPerfil, setFotoPerfil] = useState(null);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const navigate = useNavigate();
   const storage = getStorage();
 
@@ -22,22 +24,35 @@ const Registrar = () => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      if (fotoPerfil) {
-        const storageRef = ref(storage, `fotosPerfil/${user.uid}`);
-        await uploadBytes(storageRef, fotoPerfil);
-      }
+      
+      await sendEmailVerification(user);
+      setSuccess('Se ha enviado un correo de verificación. Por favor, verifica tu cuenta antes de continuar.');
 
-      await setDoc(doc(db, 'Usuarios', user.uid), {
-        uid: user.uid,
-        nombre,
-        apellidoPaterno,
-        apellidoMaterno,
-        email,
-        contraseña: password,
-        fotoPerfil: `fotosPerfil/${user.uid}`
-      });
+      
+      const interval = setInterval(async () => {
+        await user.reload(); 
+        if (user.emailVerified) {
+          clearInterval(interval);
 
-      navigate('/');
+          if (fotoPerfil) {
+            const storageRef = ref(storage, `fotosPerfil/${user.uid}`);
+            await uploadBytes(storageRef, fotoPerfil);
+          }
+
+          // Guardar los datos en Firestore
+          await setDoc(doc(db, 'Usuarios', user.uid), {
+            uid: user.uid,
+            nombre,
+            apellidoPaterno,
+            apellidoMaterno,
+            email,
+            fotoPerfil: fotoPerfil ? `fotosPerfil/${user.uid}` : null
+          });
+
+          navigate('/');
+        }
+      }, 3000); 
+
     } catch (err) {
       setError('Error al registrar: ' + err.message);
     }
@@ -47,6 +62,14 @@ const Registrar = () => {
     <div className="registrar-container">
       <h1>Registrar Cuenta</h1>
       {error && <p className="error">{error}</p>}
+      {success && (
+        <div className="modal">
+          <div className="modal-content">
+            <p>{success}</p>
+            <button onClick={() => setSuccess('')} className="modal-button">Aceptar</button>
+          </div>
+        </div>
+      )}
       <form onSubmit={handleRegistro}>
         <input
           type="text"
@@ -87,7 +110,6 @@ const Registrar = () => {
           type="file"
           accept="image/*"
           onChange={(e) => setFotoPerfil(e.target.files[0])}
-          required
         />
         <button type="submit">Registrar</button>
       </form>
