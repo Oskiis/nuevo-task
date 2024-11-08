@@ -76,6 +76,7 @@ const Notas = () => {
         </select>
         
         <select value={categoria} onChange={(e) => setCategoria(e.target.value)}>
+        <option value="">Categoría</option>
         <option value="casa">Casa</option>
             <option value="trabajo">Trabajo</option>
             <option value="estudio">Estudio</option>
@@ -98,9 +99,9 @@ const Notas = () => {
         
         <select value={estado} onChange={(e) => setEstado(e.target.value)}>
           <option value="">Estado</option>
+          <option value="sin empezar">Sin empezar</option>
+          <option value="en proceso">En proceso</option>
           <option value="finalizado">Finalizado</option>
-          <option value="completado">Completado</option>
-          <option value="en proceso">En Proceso</option>
         </select>
         
         <button onClick={handleFilter} className="filtrar-button">Filtrar</button>
