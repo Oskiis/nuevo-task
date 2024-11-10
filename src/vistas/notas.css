@@ -167,3 +167,41 @@
     background-color: #45a049;
   }
   
+
+
+
+  
+  /*estilos para la lupa*/
+
+
+  .barra-busqueda {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto 20px auto; /* Centrar y agregar espacio inferior */
+  }
+  
+  .busqueda-input {
+    width: 100%;
+    padding: 10px 40px 10px 15px; /* Espacio para el icono de la lupa */
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 25px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+  }
+  
+  .busqueda-input:focus {
+    border-color: #007BFF; /* Cambia el color al enfocarse */
+  }
+  
+  .lupa-texto {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #888; /* Color gris para la lupa */
+    pointer-events: none; /* Para que no interfiera con el input */
+  }

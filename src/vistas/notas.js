@@ -1,4 +1,3 @@
-
 import { collection, deleteDoc, doc, getDocs, getFirestore, query, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -14,6 +13,7 @@ const Notas = () => {
   const [prioridad, setPrioridad] = useState('');
   const [categoria, setCategoria] = useState('');
   const [estado, setEstado] = useState('');
+  const [busqueda, setBusqueda] = useState('');
   const db = getFirestore();
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const Notas = () => {
       return;
     }
     obtenerTareas();
-  }, [db, uid, navigate]);
+  }, [db, uid, prioridad, categoria, estado, busqueda, navigate]);
 
   const obtenerTareas = async () => {
     let q = query(collection(db, 'tareas'), where('uid', '==', uid));
@@ -31,7 +31,15 @@ const Notas = () => {
     if (estado) q = query(q, where('estado', '==', estado));
 
     const querySnapshot = await getDocs(q);
-    const tareasUsuario = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    let tareasUsuario = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    
+    if (busqueda) {
+      const busquedaLower = busqueda.toLowerCase();
+      tareasUsuario = tareasUsuario.filter(tarea =>
+        tarea.titulo.toLowerCase().includes(busquedaLower)
+      );
+    }
+    
     setTareas(tareasUsuario);
   };
 
@@ -59,14 +67,30 @@ const Notas = () => {
     }
   };
 
+  const handleBusquedaChange = (e) => {
+    setBusqueda(e.target.value);
+  };
   const handleFilter = () => {
     obtenerTareas();
   };
+
 
   return (
     <div className="notas-container">
       <h1>Lista de tareas</h1>
       
+      {/* Barra de búsqueda */}
+      <div className="barra-busqueda">
+        <input
+          type="text"
+          placeholder="Busca aquí el título de la tarea..."
+          value={busqueda}
+          onChange={handleBusquedaChange}
+          className="busqueda-input"
+        />
+        <span className="lupa-texto">🔍</span>
+      </div>
+
       <div className="filtros">
         <select value={prioridad} onChange={(e) => setPrioridad(e.target.value)}>
           <option value="">Prioridad</option>
@@ -104,7 +128,7 @@ const Notas = () => {
           <option value="finalizado">Finalizado</option>
         </select>
         
-        <button onClick={handleFilter} className="filtrar-button">Filtrar</button>
+        
       </div>
 
       <div className="tareas-list">
@@ -130,24 +154,20 @@ const Notas = () => {
             </div>
           ))
         ) : (
-          <p>No hay tareas disponibles.</p>
+          <p>No se ha encontrado una tarea con dicho título.</p>
         )}
 
         <button className="crear-tarea-button" onClick={() => {
-              console.log('Botón de crear tarea presionado');
-              navigate('/newtask', { state: { uid } });
-            }}>
-              + Crear nueva tarea
+          navigate('/newtask', { state: { uid } });
+        }}>
+          + Crear nueva tarea
         </button>
-
       </div>
       <div className="menu-inferior">
         <Link to="/">Inicio</Link>
         <Link to="/calendario" state={{ uid }}>Calendario</Link>
         <Link to="/notificaciones">Notificaciones</Link>
         <Link to="/ajustes" state={{ uid }}>Ajustes</Link>
-        
-        
       </div>
     </div>
   );
