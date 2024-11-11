@@ -30,12 +30,12 @@ const Notificaciones = () => {
     // Clasificar tareas en diferentes estados
     const proximas = todasTareas.filter((tarea) => {
       const fechaVencimiento = new Date(tarea.fechaVencimiento);
-      return fechaVencimiento > hoy && (fechaVencimiento - hoy) / (1000 * 60 * 60 * 24) <= 3;
+      return tarea.estado !== 'finalizado' && fechaVencimiento > hoy && (fechaVencimiento - hoy) / (1000 * 60 * 60 * 24) <= 3;
     });
 
     const vencidas = todasTareas.filter((tarea) => {
       const fechaVencimiento = new Date(tarea.fechaVencimiento);
-      return fechaVencimiento < hoy && tarea.estado !== 'finalizado';
+      return tarea.estado !== 'finalizado' && fechaVencimiento < hoy;
     });
 
     const recientes = todasTareas.filter((tarea) => {
@@ -51,15 +51,14 @@ const Notificaciones = () => {
     setTareasCompletadas(completadas);
   };
 
-  const renderTareas = (titulo, tareas, extraInfo = '') => (
+  const renderTareas = (titulo, tareas, clase) => (
     <div>
       <h2>{titulo}</h2>
       {tareas.length > 0 ? (
         tareas.map((tarea) => (
-          <div key={tarea.id} className="notificacion">
+          <div key={tarea.id} className={`notificacion ${clase}`}>
             <h3>Título: {tarea.titulo}</h3>
             <p>Fecha de vencimiento: {new Date(tarea.fechaVencimiento).toLocaleString()}</p>
-            {extraInfo && <p>{extraInfo}: {tarea[extraInfo]}</p>}
             {tarea.estado && <p>Estado: {tarea.estado}</p>}
           </div>
         ))
@@ -72,10 +71,10 @@ const Notificaciones = () => {
   return (
     <div className="notificaciones-container">
       <h1>Notificaciones</h1>
-      {renderTareas('Próximas a vencer', tareasProximas, 'prioridad')}
-      {renderTareas('Vencidas', tareasVencidas)}
-      {renderTareas('Recientemente agregadas', tareasRecientes, 'prioridad')}
-      {renderTareas('Completadas', tareasCompletadas, 'fechaCompletada')}
+      {renderTareas('Próximas a vencer', tareasProximas, 'notificacion-proxima')}
+      {renderTareas('Vencidas', tareasVencidas, 'notificacion-vencida')}
+      {renderTareas('Recientemente agregadas', tareasRecientes, 'notificacion-reciente')}
+      {renderTareas('Completadas', tareasCompletadas, 'notificacion-completada')}
     </div>
   );
 };
