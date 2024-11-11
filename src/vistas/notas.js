@@ -166,7 +166,7 @@ const Notas = () => {
       <div className="menu-inferior">
         <Link to="/">Inicio</Link>
         <Link to="/calendario" state={{ uid }}>Calendario</Link>
-        <Link to="/notificaciones">Notificaciones</Link>
+        <Link to="/notificaciones" state={{ uid }}>Notificaciones</Link>
         <Link to="/ajustes" state={{ uid }}>Ajustes</Link>
       </div>
     </div>

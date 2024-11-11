@@ -10,9 +10,11 @@ import Login from './vistas/login';
 import NewTask from './vistas/newtask';
 import Notas from './vistas/notas';
 import Notaseditar from './vistas/notaseditar';
+import Notificaciones from './vistas/notificaciones';
 import Registrar from './vistas/registrar';
 import RellenarDatos from './vistas/rellenarDatos';
 import RestablecerContraseña from './vistas/restablecerContraseña';
+
 const App = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate(); 
@@ -61,6 +63,7 @@ ReactDOM.render(
       <Route path="/calendario" element={<Calendario />} />
       <Route path="/rellenarDatos" element={<RellenarDatos />} />
       <Route path="/restablecerContraseña" element={<RestablecerContraseña />} />
+      <Route path="/notificaciones" element={<Notificaciones />} />
     </Routes>
   </Router>,
   document.getElementById('root')
