@@ -45,6 +45,7 @@ const Notificaciones = () => {
 
     const completadas = todasTareas.filter((tarea) => tarea.estado === 'finalizado');
 
+    // Actualizar el estado con las tareas filtradas
     setTareasProximas(proximas);
     setTareasVencidas(vencidas);
     setTareasRecientes(recientes);
@@ -60,6 +61,9 @@ const Notificaciones = () => {
             <h3>Título: {tarea.titulo}</h3>
             <p>Fecha de vencimiento: {new Date(tarea.fechaVencimiento).toLocaleString()}</p>
             {tarea.estado && <p>Estado: {tarea.estado}</p>}
+            {tarea.estado === 'finalizado' && tarea.fechaCompletado && (
+              <p>Fecha de completado: {new Date(tarea.fechaCompletado).toLocaleString()}</p>
+            )}
           </div>
         ))
       ) : (

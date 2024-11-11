@@ -1,4 +1,3 @@
-
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
@@ -14,7 +13,7 @@ const NotasEditar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { tarea } = location.state || {};
-  
+
   const [titulo, setTitulo] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [fechaVencimiento, setFechaVencimiento] = useState(dayjs());
@@ -23,6 +22,7 @@ const NotasEditar = () => {
   const [estado, setEstado] = useState('en proceso');
   const [imagen, setImagen] = useState(null);
   const [imageUrl, setImageUrl] = useState('');
+  const [fechaCompletado, setFechaCompletado] = useState(null);  // Nueva variable
   const db = getFirestore();
   const storage = getStorage();
 
@@ -39,6 +39,7 @@ const NotasEditar = () => {
         setPrioridad(data.prioridad);
         setCategoria(data.categoria);
         setEstado(data.estado);
+        setFechaCompletado(data.fechaCompletado || null); // Recuperar fechaCompletado
         if (data.imageUrl) {
           setImageUrl(data.imageUrl);
         }
@@ -63,6 +64,13 @@ const NotasEditar = () => {
       }
 
       const tareaRef = doc(db, 'tareas', tarea.id);
+      
+      // Si el estado es finalizado o completado, agregar la fecha de completado
+      let updatedFechaCompletado = fechaCompletado;
+      if (estado === 'finalizado' || estado === 'completado') {
+        updatedFechaCompletado = dayjs().toISOString();
+      }
+
       await updateDoc(tareaRef, {
         titulo,
         descripcion,
@@ -71,6 +79,7 @@ const NotasEditar = () => {
         categoria,
         estado,
         imageUrl: updatedImageUrl,
+        fechaCompletado: updatedFechaCompletado,  // Guardar la fecha de completado
       });
 
       navigate('/notas', { state: { uid: tarea.uid } });
@@ -136,10 +145,11 @@ const NotasEditar = () => {
           value={estado}
           onChange={(e) => setEstado(e.target.value)}
           required
+          disabled={estado === 'finalizado' || estado === 'completado'}  // Deshabilitar si está finalizado o completado
         >
-          <option value="finalizado">Finalizado</option>
-          <option value="completado">Completado</option>
+          <option value="sin empezar">Sin empezar</option>
           <option value="en proceso">En proceso</option>
+          <option value="finalizado">Finalizado</option>
         </select>
 
         <label>Agregar Imagen</label>
