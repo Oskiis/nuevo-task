@@ -3,6 +3,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import googleLogo from '../assets/images/Logo-google-icon-PNG.png';
+import logo from '../assets/images/logo.jpeg'; // Importa tu logo
 import { auth, db } from '../config/firebase';
 import './login.css';
 
@@ -28,7 +29,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate('/notas'); 
+      navigate('/notas');
     } catch (err) {
       setError('Error al iniciar sesión. Verifica tus credenciales.');
     }
@@ -43,7 +44,7 @@ const Login = () => {
       const userDoc = await getDoc(userDocRef);
 
       if (userDoc.exists()) {
-        navigate('/notas'); 
+        navigate('/notas');
       } else {
         navigate('/rellenarDatos');
       }
@@ -54,6 +55,15 @@ const Login = () => {
 
   return (
     <div className="login-container">
+      {/* Imagen que redirige al index */}
+      <img
+        src={logo}
+        alt="Logo"
+        className="logo-image"
+        onClick={() => navigate('/')}
+        style={{ cursor: 'pointer', width: '150px', marginBottom: '20px' }}
+      />
+
       <h1>Iniciar Sesión</h1>
       {error && <p className="error">{error}</p>}
       <form onSubmit={handleLogin}>
@@ -74,13 +84,12 @@ const Login = () => {
         <button type="submit">Iniciar Sesión</button>
       </form>
       <p className="or-text">- o -</p>
-      
+
       <button onClick={handleGoogleLogin} className="google-login-button">
         <img src={googleLogo} alt="Google logo" className="google-icon" />
         Iniciar Sesión con Google
       </button>
 
-      {/* Texto para restablecer contraseña */}
       <p 
         className="forgot-password-text" 
         onClick={() => navigate('/restablecerContraseña')}
@@ -88,7 +97,6 @@ const Login = () => {
       >
         ¿Olvidaste tu contraseña?
       </p>
-
     </div>
   );
 };

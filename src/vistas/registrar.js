@@ -4,6 +4,7 @@ import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, db } from '../config/firebase';
+import logo from '../assets/images/logo.jpeg'; // Importa tu logo
 import './registrar.css';
 
 const Registrar = () => {
@@ -24,13 +25,11 @@ const Registrar = () => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      
       await sendEmailVerification(user);
       setSuccess('Se ha enviado un correo de verificación. Por favor, verifica tu cuenta antes de continuar.');
 
-      
       const interval = setInterval(async () => {
-        await user.reload(); 
+        await user.reload();
         if (user.emailVerified) {
           clearInterval(interval);
 
@@ -39,20 +38,18 @@ const Registrar = () => {
             await uploadBytes(storageRef, fotoPerfil);
           }
 
-          // Guardar los datos en Firestore
           await setDoc(doc(db, 'Usuarios', user.uid), {
             uid: user.uid,
             nombre,
             apellidoPaterno,
             apellidoMaterno,
             email,
-            fotoPerfil: fotoPerfil ? `fotosPerfil/${user.uid}` : null
+            fotoPerfil: fotoPerfil ? `fotosPerfil/${user.uid}` : null,
           });
 
           navigate('/');
         }
-      }, 3000); 
-
+      }, 3000);
     } catch (err) {
       setError('Error al registrar: ' + err.message);
     }
@@ -60,6 +57,15 @@ const Registrar = () => {
 
   return (
     <div className="registrar-container">
+      {/* Imagen que redirige al index */}
+      <img
+        src={logo}
+        alt="Logo"
+        className="logo-image"
+        onClick={() => navigate('/')}
+        style={{ cursor: 'pointer', width: '150px', marginBottom: '20px' }}
+      />
+
       <h1>Registrar Cuenta</h1>
       {error && <p className="error">{error}</p>}
       {success && (

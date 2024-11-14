@@ -133,3 +133,8 @@ button:active {
   height: 18px;
   margin-right: 8px;
 }
+
+.logo-image {
+  display: block;
+  margin: 0 auto;
+}

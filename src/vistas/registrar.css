@@ -1,64 +1,128 @@
+/* Contenedor principal */
 .registrar-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px;
-    background-color: #f0f4f8;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    margin: auto;
-    transition: all 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 320px;
+  width: 90%;
+  margin: auto;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Título */
+.registrar-container h1 {
+  margin-bottom: 15px;
+  color: #333;
+  font-size: 20px;
+  text-align: center;
+}
+
+/* Mensaje de error */
+.error {
+  color: red;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* Estilo del formulario */
+form {
+  width: 100%;
+}
+
+/* Estilos de los campos de entrada */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: border 0.3s;
+}
+
+/* Estilo de enfoque para los campos */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border-color: #66afe9;
+  outline: none;
+}
+
+/* Botón de iniciar sesión */
+button {
+  width: 100%;
+  padding: 8px;
+  background-color: #007bff; /* Color azul */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px; /* Tamaño de fuente reducido */
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3; /* Azul más oscuro */
+}
+
+/* Imagen del logo */
+.logo-image {
+  display: block;
+  margin: 0 auto 15px auto;
+  max-width: 100px;
+  height: auto;
+  cursor: pointer;
+}
+
+/* Media Queries para dispositivos móviles */
+@media (max-width: 600px) {
+  .registrar-container {
+    padding: 8px;
+    max-width: 280px;
   }
-  
-  .registrar-container h1 {
-    margin-bottom: 20px;
-    color: #333;
+
+  .logo-image {
+    max-width: 80px;
   }
-  
-  .error {
-    color: red;
-    margin-bottom: 15px;
-  }
-  
-  form {
-    width: 100%;
-  }
-  
+
   input[type="text"],
   input[type="email"],
   input[type="password"],
   input[type="file"] {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: border 0.3s;
+    font-size: 12px;
+    padding: 6px;
   }
-  
-  input[type="text"]:focus,
-  input[type="email"]:focus,
-  input[type="password"]:focus {
-    border-color: #66afe9;
-    outline: none;
-  }
-  
+
   button {
-    width: 100%;
-    padding: 12px;
-    background-color: #8cc7ff;
-    color: white;
-    border: none;
-    border-radius: 5px;
+    font-size: 14px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 400px) {
+  .registrar-container {
+    padding: 5px;
+  }
+
+  .logo-image {
+    max-width: 70px;
+  }
+
+  h1 {
     font-size: 18px;
-    cursor: pointer;
-    transition: background-color 0.3s;
   }
-  
-  button:hover {
-    background-color: #5e73ff;
+
+  button {
+    font-size: 12px;
+    padding: 6px;
   }
-  
+}
