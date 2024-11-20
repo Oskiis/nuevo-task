@@ -1,10 +1,10 @@
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
-import { getStorage, ref, uploadBytes } from 'firebase/storage';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth, db } from '../config/firebase';
 import logo from '../assets/images/logo.jpeg'; // Importa tu logo
+import { auth, db } from '../config/firebase';
 import './registrar.css';
 
 const Registrar = () => {
@@ -33,9 +33,12 @@ const Registrar = () => {
         if (user.emailVerified) {
           clearInterval(interval);
 
+          let fotoPerfilURL = null;
+
           if (fotoPerfil) {
             const storageRef = ref(storage, `fotosPerfil/${user.uid}`);
             await uploadBytes(storageRef, fotoPerfil);
+            fotoPerfilURL = await getDownloadURL(storageRef);
           }
 
           await setDoc(doc(db, 'Usuarios', user.uid), {
@@ -44,7 +47,7 @@ const Registrar = () => {
             apellidoPaterno,
             apellidoMaterno,
             email,
-            fotoPerfil: fotoPerfil ? `fotosPerfil/${user.uid}` : null,
+            fotoPerfil: fotoPerfilURL,
           });
 
           navigate('/');

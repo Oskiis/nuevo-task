@@ -1,86 +1,154 @@
-import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDocs, getFirestore, query, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './notificaciones.css';
 
-const Notificaciones = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const uid = location.state?.uid;
-
-  const [tareasProximas, setTareasProximas] = useState([]);
-  const [tareasVencidas, setTareasVencidas] = useState([]);
-  const [tareasRecientes, setTareasRecientes] = useState([]);
-  const [tareasCompletadas, setTareasCompletadas] = useState([]);
+const App = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [tareas, setTareas] = useState([]);
+  const [longPressTask, setLongPressTask] = useState(null);
+  const [prioridad, setPrioridad] = useState('');
+  const [categoria, setCategoria] = useState('');
+  const [estado, setEstado] = useState('');
+  const [busqueda, setBusqueda] = useState('');
+  const [uid, setUid] = useState(null);
   const db = getFirestore();
+  const navigate = useNavigate();
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
 
   useEffect(() => {
     if (!uid) {
       navigate('/');
       return;
     }
-    cargarTareas();
-  }, [db, uid, navigate]);
+    obtenerTareas();
+  }, [db, uid, prioridad, categoria, estado, busqueda, navigate]);
 
-  const cargarTareas = async () => {
-    const hoy = new Date();
-    const querySnapshot = await getDocs(query(collection(db, 'tareas'), where('uid', '==', uid)));
-    const todasTareas = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  const obtenerTareas = async () => {
+    let q = query(collection(db, 'tareas'), where('uid', '==', uid));
+    if (prioridad) q = query(q, where('prioridad', '==', prioridad));
+    if (categoria) q = query(q, where('categoria', '==', categoria));
+    if (estado) q = query(q, where('estado', '==', estado));
 
-    // Clasificar tareas en diferentes estados
-    const proximas = todasTareas.filter((tarea) => {
-      const fechaVencimiento = new Date(tarea.fechaVencimiento);
-      return tarea.estado !== 'finalizado' && fechaVencimiento > hoy && (fechaVencimiento - hoy) / (1000 * 60 * 60 * 24) <= 3;
-    });
+    const querySnapshot = await getDocs(q);
+    let tareasUsuario = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
-    const vencidas = todasTareas.filter((tarea) => {
-      const fechaVencimiento = new Date(tarea.fechaVencimiento);
-      return tarea.estado !== 'finalizado' && fechaVencimiento < hoy;
-    });
+    if (busqueda) {
+      const busquedaLower = busqueda.toLowerCase();
+      tareasUsuario = tareasUsuario.filter(tarea =>
+        tarea.titulo.toLowerCase().includes(busquedaLower)
+      );
+    }
 
-    const recientes = todasTareas.filter((tarea) => {
-      const fechaCreacion = new Date(tarea.fechaCreacion);
-      return (hoy - fechaCreacion) / (1000 * 60 * 60 * 24) <= 7;
-    });
-
-    const completadas = todasTareas.filter((tarea) => tarea.estado === 'finalizado');
-
-    // Actualizar el estado con las tareas filtradas
-    setTareasProximas(proximas);
-    setTareasVencidas(vencidas);
-    setTareasRecientes(recientes);
-    setTareasCompletadas(completadas);
+    setTareas(tareasUsuario);
   };
 
-  const renderTareas = (titulo, tareas, clase) => (
-    <div>
-      <h2>{titulo}</h2>
-      {tareas.length > 0 ? (
-        tareas.map((tarea) => (
-          <div key={tarea.id} className={`notificacion ${clase}`}>
-            <h3>Título: {tarea.titulo}</h3>
-            <p>Fecha de vencimiento: {new Date(tarea.fechaVencimiento).toLocaleString()}</p>
-            {tarea.estado && <p>Estado: {tarea.estado}</p>}
-            {tarea.estado === 'finalizado' && tarea.fechaCompletado && (
-              <p>Fecha de completado: {new Date(tarea.fechaCompletado).toLocaleString()}</p>
-            )}
-          </div>
-        ))
-      ) : (
-        <p>No hay tareas en esta categoría.</p>
-      )}
-    </div>
-  );
+  const handleTaskClick = (tarea) => {
+    navigate('/notaseditar', { state: { tarea } });
+  };
+
+  const handleLongPress = (tarea) => {
+    setLongPressTask(tarea.id);
+    const confirmDelete = window.confirm('¿Estás seguro que deseas eliminar esta tarea? No hay vuelta atrás.');
+    if (confirmDelete) {
+      handleDelete(tarea.id);
+    } else {
+      setLongPressTask(null);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteDoc(doc(db, 'tareas', id));
+      setTareas((prevTareas) => prevTareas.filter((tarea) => tarea.id !== id));
+      setLongPressTask(null);
+    } catch (error) {
+      console.error('Error al eliminar la tarea:', error);
+    }
+  };
+
+  const handleBusquedaChange = (e) => {
+    setBusqueda(e.target.value);
+  };
 
   return (
-    <div className="notificaciones-container">
-      <h1>Notificaciones</h1>
-      {renderTareas('Próximas a vencer', tareasProximas, 'notificacion-proxima')}
-      {renderTareas('Vencidas', tareasVencidas, 'notificacion-vencida')}
-      {renderTareas('Recientemente agregadas', tareasRecientes, 'notificacion-reciente')}
-      {renderTareas('Completadas', tareasCompletadas, 'notificacion-completada')}
+    <div className="App">
+      <div className={`menu-overlay ${menuOpen ? 'open' : ''}`} onClick={toggleMenu}></div>
+
+      <header className="header">
+        <div className="menu-icon" onClick={toggleMenu}>
+          <div className="bar"></div>
+          <div className="bar"></div>
+          <div className="bar"></div>
+        </div>
+        <div className="titulo-header">
+          <h1>Lista de Tareas</h1>
+        </div>
+        <div className="barra-busqueda">
+          <input
+            type="text"
+            placeholder="Busca aquí el título de la tarea..."
+            value={busqueda}
+            onChange={handleBusquedaChange}
+            className="busqueda-input"
+          />
+          <span className="lupa-texto">🔍</span>
+        </div>
+      </header>
+
+      <nav className={`menu ${menuOpen ? 'open' : ''}`}>
+        <ul>
+          <li><a href="#">Inicio</a></li>
+          <li><a href="#">Calendario</a></li>
+          <li><a href="#">Notificaciones</a></li>
+          <li><a href="#">Ajustes</a></li>
+        </ul>
+      </nav>
+
+      <main>
+        <div className="tareas-list">
+          {tareas.length > 0 ? (
+            tareas.map((tarea) => (
+              <div
+                key={tarea.id}
+                className={`tarea ${longPressTask === tarea.id ? 'tarea-roja' : ''}`}
+                onClick={() => handleTaskClick(tarea)}
+                onContextMenu={(e) => {
+                  e.preventDefault();
+                  handleLongPress(tarea);
+                }}
+              >
+                <div className="tarea-imagen">
+                  {tarea.imageUrl ? <img src={tarea.imageUrl} alt="Imagen de la tarea" /> : <p>Sin imagen</p>}
+                </div>
+                <div className="tarea-info">
+                  <h3>{tarea.titulo}</h3>
+                  <p>{tarea.descripcion.length > 100 ? tarea.descripcion.slice(0, 100) + '...' : tarea.descripcion}</p>
+                  <span className="tarea-prioridad">{tarea.prioridad}</span>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>No se ha encontrado una tarea con dicho título.</p>
+          )}
+
+          <button className="crear-tarea-button" onClick={() => navigate('/newtask', { state: { uid } })}>
+            + Crear nueva tarea
+          </button>
+        </div>
+      </main>
+
+      <div className="menu-inferior">
+        <a href="#">Inicio</a>
+        <a href="#">Calendario</a>
+        <a href="#">Notificaciones</a>
+        <a href="#">Ajustes</a>
+      </div>
     </div>
   );
 };
 
-export default Notificaciones;
+export default App;

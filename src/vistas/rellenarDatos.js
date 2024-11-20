@@ -1,5 +1,5 @@
 import { doc, setDoc } from 'firebase/firestore';
-import { getStorage, ref, uploadBytes } from 'firebase/storage';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, db } from '../config/firebase';
@@ -18,9 +18,12 @@ const RellenarDatos = () => {
     const user = auth.currentUser;
 
     try {
+      let fotoPerfilURL = null;
+
       if (fotoPerfil) {
         const storageRef = ref(storage, `fotosPerfil/${user.uid}`);
         await uploadBytes(storageRef, fotoPerfil);
+        fotoPerfilURL = await getDownloadURL(storageRef);
       }
 
       await setDoc(doc(db, 'Usuarios', user.uid), {
@@ -29,7 +32,7 @@ const RellenarDatos = () => {
         apellidoPaterno,
         apellidoMaterno,
         email: user.email,
-        fotoPerfil: `fotosPerfil/${user.uid}`
+        fotoPerfil: fotoPerfilURL,
       });
 
       navigate('/notas');

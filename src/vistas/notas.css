@@ -1,207 +1,228 @@
-/* src/vistas/notas.css */
+/*
+## Esto ya no se mueve esto ya quedo demaciado bien no es necesario meterle mano
+*/
+
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  background-color: #76c1ff;
+  color: white;
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100%; 
+  z-index: 1000; 
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); 
+}
+
+.header-left,
+.header-center,
+.header-right {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.header-left {
+  flex: 1;
+}
+
+.header-center {
+  flex: 2;
+  justify-content: center;
+}
+
+.header-right {
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.menu-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 25px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.menu-icon .bar {
+  height: 3px;
+  background-color: white;
+  
+}
+
+.header-title {
+  margin-left: 20px;
+  font-size: 2.2rem;
+  font-family: cursive;
+}
+
+.busqueda-input {
+  width: 100%;
+  max-width: 700px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+}
+
+.perfil-imagen {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #000000;
+}
+
+.lupa-texto {
+  margin-left: 10px;
+}
+
+.menu-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.menu-icon .bar {
+  height: 4px;
+  background-color: rgb(0, 0, 0);
+}
+
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 200px;
+  background-color: #bdecff;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  z-index: 1000;
+}
+
+.menu.open {
+  transform: translateX(0);
+  
+}
+
+.menu ul {
+  list-style: none;
+  padding: 20px;
+}
+
+.menu ul li a {
+  text-decoration: none;
+  color: white;
+  display: block;
+  margin: 10px 0;
+}
+
+.tareas-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+  gap: 20px; 
+  padding: 20px; 
+  width: 100%; 
+  max-width: 1200px; 
+  margin: 0 auto; 
+  margin-top: 80px; 
+  margin-bottom: 100px; 
+  box-sizing: border-box;
+  margin-top: 100px; 
+  margin-bottom: 100px; 
+  padding: 20px;
+}
+.tareas-list {
+  margin-top: 80px; 
+  margin-bottom: 100px; 
+}
+
+.tarea {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+  transition: transform 0.2s;
+}
+
+.tarea:hover {
+  transform: scale(1.05); 
+}
+
+.tarea-imagen img {
+  width: 100%; 
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.tarea-info {
+  text-align: center;
+  margin-top: 10px;
+}
+.tarea-prioridad {
+  color: #fff;
+  background-color: #ff4500;
+  border-radius: 5px;
+  padding: 3px 8px;
+  font-size: 0.9em;
+  font-weight: bold;
+  align-self: flex-end;
+}
+
+.tarea-roja {
+  background-color: red;
+  color: white;
+}
+
+.crear-tarea {
+  position: fixed;
+  top: 95%; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  z-index: 1000; 
+}
+
+.crear-tarea button {
+  background-color: #87ceeb; 
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.crear-tarea button:hover {
+  background-color: #68b0d8; 
+}
+
+.filtros {
+  display: flex;
+  justify-content: space-between;
+  margin: 50px 0;
+}
+
+.filtros select {
+  flex: 1;
+  margin: 0 5px;
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid #000000;
+}
+
 .notas-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    height: 100vh;
-  }
-  
-  h1 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  .crear-tarea-button {
-    background-color: #87CEEB; 
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 25px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-bottom: 20px;
-  }
-  
-  .crear-tarea-button:hover {
-    background-color: #00BFFF; 
-  }
-  
-  .tareas-list {
-    width: 100%;
-    display: flex;
-    flex-direction:column;
-    gap: 10px;
-    margin-bottom: 50px; 
-  }
-  
- 
-  
-  .tarea h3 {
-    margin: 0 0 5px 0;
-    font-size: 18px;
-    color: #333;
-  }
-  
-  .tarea p {
-    margin: 0;
-    color: #555;
-  }
-  
-
-  .menu-inferior {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    background-color: #fff;
-    padding: 10px 0;
-    border-top: 1px solid #ddd;
-  }
-  
-  .menu-inferior a {
-    color: #333;
-    text-decoration: none;
-    font-size: 16px;
-  }
-  
-  .menu-inferior a:hover {
-    color: #87CEEB; 
-  }
-  
-
- 
-
-
-
-  
-  
-
-
-  
-  .tarea {
-    display: flex;
-    align-items: center;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .tarea-imagen img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 5px;
-  }
-  
-  .tarea-info {
-    flex-grow: 1;
-    margin-left: 15px;
-  }
-  
-  .tarea-info h3 {
-    margin: 0;
-    font-size: 1.1em;
-  }
-  
-  .tarea-info p {
-    margin: 5px 0;
-    color: #666;
-  }
-  
-  .tarea-prioridad {
-    color: #fff;
-    background-color: #ff4500;
-    border-radius: 5px;
-    padding: 3px 8px;
-    font-size: 0.9em;
-    font-weight: bold;
-    align-self: flex-end;
-  }
-  
-
-
-
-
-  .tarea-roja {
-    background-color: red;
-    color: white;
-  }
-  
-
-
-
-  
-
-  .filtros {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .filtros select, .filtrar-button {
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f8f8f8;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .filtros select:focus, .filtrar-button:focus {
-    outline: none;
-    border-color: #4caf50;
-  }
-  
-  .filtrar-button {
-    background-color: #4caf50;
-    color: white;
-  }
-  
-  .filtrar-button:hover {
-    background-color: #45a049;
-  }
-  
-
-
-
-  
-  /*estilos para la lupa*/
-
-
-  .barra-busqueda {
-    position: relative;
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto 20px auto; /* Centrar y agregar espacio inferior */
-  }
-  
-  .busqueda-input {
-    width: 100%;
-    padding: 10px 40px 10px 15px; /* Espacio para el icono de la lupa */
-    font-size: 16px;
-    border: 2px solid #ccc;
-    border-radius: 25px;
-    outline: none;
-    box-sizing: border-box;
-    transition: border-color 0.3s;
-  }
-  
-  .busqueda-input:focus {
-    border-color: #007BFF; /* Cambia el color al enfocarse */
-  }
-  
-  .lupa-texto {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 18px;
-    color: #888; /* Color gris para la lupa */
-    pointer-events: none; /* Para que no interfiera con el input */
-  }
+  padding-top: 200px; 
+  box-sizing: border-box;
+}

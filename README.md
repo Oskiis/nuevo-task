@@ -30,6 +30,9 @@ En resumen, esta herramienta busca transformar la manera en que las personas man
 8. @mui/x-date-pickers/MobileDateTimePicker: Componente de MUI que permite seleccionar fechas y horas de forma optimizada para dispositivos móviles.
 
 
+9. npm install firebase-functions firebase-admin googleapis
+
+
 # Funcionalidades
 
 1. Iniciar Sesión: Los usuarios pueden acceder a su cuenta de manera segura a través de un proceso de inicio de sesión. Se requiere un correo electrónico y una contraseña válidos para garantizar la protección de los datos personales.
