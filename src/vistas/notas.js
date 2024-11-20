@@ -1,6 +1,5 @@
-import { getAuth } from 'firebase/auth';
-import { collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, where } from 'firebase/firestore';
-
+import { getAuth, signOut } from 'firebase/auth'; // Para cerrar sesión
+import { collection, doc, getDoc, getDocs, getFirestore, query, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './notas.css';
@@ -12,15 +11,16 @@ const Notas = () => {
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [tareas, setTareas] = useState([]);
-  const [longPressTask, setLongPressTask] = useState(null);
   const [prioridad, setPrioridad] = useState('');
   const [categoria, setCategoria] = useState('');
   const [estado, setEstado] = useState('');
   const [busqueda, setBusqueda] = useState('');
   const [usuario, setUsuario] = useState(null);
+  const [mostrarPerfil, setMostrarPerfil] = useState(false); 
   const db = getFirestore();
   const auth = getAuth();
 
+  // Cargar las tareas
   useEffect(() => {
     if (!uid) {
       navigate('/');
@@ -30,6 +30,7 @@ const Notas = () => {
     fetchUsuario();
   }, [db, uid, prioridad, categoria, estado, busqueda, navigate]);
 
+  // Cargar usuario desde Firestore
   const fetchUsuario = async () => {
     const user = auth.currentUser;
     if (user) {
@@ -38,10 +39,7 @@ const Notas = () => {
     }
   };
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
+  // Función para obtener las tareas
   const obtenerTareas = async () => {
     let q = query(collection(db, 'tareas'), where('uid', '==', uid));
     if (prioridad) q = query(q, where('prioridad', '==', prioridad));
@@ -61,49 +59,52 @@ const Notas = () => {
     setTareas(tareasUsuario);
   };
 
+  // Función para manejar clic en la tarea
   const handleTaskClick = (tarea) => {
     navigate('/notaseditar', { state: { tarea } });
   };
 
-  const handleLongPress = (tarea) => {
-    setLongPressTask(tarea.id);
-    const confirmDelete = window.confirm(
-      '¿Estás seguro que deseas eliminar esta tarea? No hay vuelta atrás.'
-    );
-    if (confirmDelete) {
-      handleDelete(tarea.id);
-    } else {
-      setLongPressTask(null);
-    }
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      await deleteDoc(doc(db, 'tareas', id));
-      setTareas((prevTareas) => prevTareas.filter((tarea) => tarea.id !== id));
-      setLongPressTask(null);
-    } catch (error) {
-      console.error('Error al eliminar la tarea:', error);
-    }
-  };
-
+  // Función para manejar la búsqueda
   const handleBusquedaChange = (e) => {
     setBusqueda(e.target.value);
   };
 
+  // Función para manejar el cierre de sesión
+  const handleCerrarSesion = () => {
+    signOut(auth).then(() => {
+      console.log('Sesión cerrada');
+      navigate('/');
+    }).catch((error) => {
+      console.error('Error al cerrar sesión:', error);
+    });
+  };
+
+  // Mostrar el cuadro del perfil cuando se pase el ratón
+  const handleMouseEnter = () => {
+    setMostrarPerfil(true);
+  };
+
+  // Ocultar el cuadro del perfil cuando el ratón se vaya
+  const handleMouseLeave = () => {
+    setTimeout(() => {
+      setMostrarPerfil(false);
+    }, 5000); 
+  };
+  
   return (
     <div className="notas-container">
       {/* Menú de hamburguesa */}
-      <div className={`menu-overlay ${menuOpen ? 'open' : ''}`} onClick={toggleMenu}></div>
+      <div className={`menu-overlay ${menuOpen ? 'open' : ''}`} onClick={() => setMenuOpen(!menuOpen)}></div>
       <header className="header">
         <div className="header-left">
-          <div className="menu-icon" onClick={toggleMenu}>
+          <div className="menu-icon" onClick={() => setMenuOpen(!menuOpen)}>
             <div className="bar"></div>
             <div className="bar"></div>
             <div className="bar"></div>
           </div>
           <h1 className="header-title">Lista de Tareas</h1>
         </div>
+
         <div className="header-center">
           <input
             type="text"
@@ -114,16 +115,31 @@ const Notas = () => {
           />
           <span className="lupa-texto">🔍</span>
         </div>
+
         <div className="header-right">
           {usuario && (
             <img
               src={usuario.fotoPerfil}
               alt="Foto de perfil"
               className="perfil-imagen"
+              onMouseEnter={handleMouseEnter}  // Mostrar cuadro al pasar el ratón
+              onMouseLeave={handleMouseLeave}  // Ocultar cuadro al dejar el ratón
             />
           )}
         </div>
       </header>
+
+      {/* Cuadro redondeado del perfil */}
+      {mostrarPerfil && usuario && (
+        <div className="perfil-popup">
+          <p>Correo electrónico: {usuario.email}</p>
+          <div className="perfil-popup-image">
+            <img src={usuario.fotoPerfil} alt="Foto de perfil" />
+          </div>
+          <p>Hola, {usuario.nombre}</p>
+          <button className="cerrar-sesion-btn" onClick={handleCerrarSesion}>Cerrar sesión</button>
+        </div>
+      )}
 
       <nav className={`menu ${menuOpen ? 'open' : ''}`}>
         <ul>
@@ -134,7 +150,7 @@ const Notas = () => {
         </ul>
       </nav>
 
-      
+      {/* Filtros de tareas */}
       <div className="filtros">
         <select value={prioridad} onChange={(e) => setPrioridad(e.target.value)}>
           <option value="">Prioridad</option>
@@ -156,17 +172,14 @@ const Notas = () => {
         </select>
       </div>
 
+      {/* Lista de tareas */}
       <div className="tareas-list">
         {tareas.length > 0 ? (
           tareas.map((tarea) => (
             <div
               key={tarea.id}
-              className={`tarea ${longPressTask === tarea.id ? 'tarea-roja' : ''}`}
+              className="tarea"
               onClick={() => handleTaskClick(tarea)}
-              onContextMenu={(e) => {
-                e.preventDefault();
-                handleLongPress(tarea);
-              }}
             >
               <div className="tarea-imagen">
                 {tarea.imageUrl ? <img src={tarea.imageUrl} alt="Imagen de la tarea" /> : <p>Sin imagen</p>}
@@ -182,6 +195,8 @@ const Notas = () => {
           <p>No se encontraron tareas.</p>
         )}
       </div>
+
+      {/* Crear nueva tarea */}
       <div className="crear-tarea">
         <button className="crear-tarea-button" onClick={() => navigate('/newtask', { state: { uid } })}>
           + Crear nueva tarea
