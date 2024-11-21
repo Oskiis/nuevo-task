@@ -4,7 +4,7 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import googleLogo from '../assets/images/Logo-google-icon-PNG.png';
-import logo from '../assets/images/logo.jpeg'; // Importa tu logo
+import logo from '../assets/images/logo.jpeg';
 import { auth, db } from '../config/firebase';
 import './registrar.css';
 
@@ -26,37 +26,59 @@ const Registrar = () => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
+  
       await sendEmailVerification(user);
       setSuccess('Se ha enviado un correo de verificación. Por favor, verifica tu cuenta antes de continuar.');
-
+  
       const interval = setInterval(async () => {
         await user.reload();
+  
         if (user.emailVerified) {
           clearInterval(interval);
-
-          let fotoPerfilURL = null;
-
-          if (fotoPerfil) {
-            const storageRef = ref(storage, `fotosPerfil/${user.uid}`);
-            await uploadBytes(storageRef, fotoPerfil);
-            fotoPerfilURL = await getDownloadURL(storageRef);
+  
+          try {
+            
+            const userDocRef = doc(db, 'Usuarios', user.uid);
+            const userDocSnap = await getDoc(userDocRef);
+  
+            if (userDocSnap.exists()) {
+              setError('Ya hay una cuenta con este correo, por favor proporciona un nuevo correo.');
+              return;
+            }
+  
+            let fotoPerfilURL = null;
+  
+            if (fotoPerfil) {
+              const storageRef = ref(storage, `fotosPerfil/${user.uid}`);
+              await uploadBytes(storageRef, fotoPerfil);
+              fotoPerfilURL = await getDownloadURL(storageRef);
+            }
+  
+            await setDoc(userDocRef, {
+              uid: user.uid,
+              nombre,
+              apellidoPaterno,
+              apellidoMaterno,
+              email: user.email,
+              fotoPerfil: fotoPerfilURL,
+            });
+  
+            navigate('/');
+          } catch (error) {
+            setError('Error al procesar la solicitud: ' + error.message);
           }
-
-          await setDoc(doc(db, 'Usuarios', user.uid), {
-            uid: user.uid,
-            nombre,
-            apellidoPaterno,
-            apellidoMaterno,
-            email,
-            fotoPerfil: fotoPerfilURL,
-          });
-
-          navigate('/');
+        } else {
+          setError('El correo electrónico no ha sido verificado. Intenta nuevamente.');
         }
       }, 3000);
+  
     } catch (err) {
-      setError('Error al registrar: ' + err.message);
+      
+      if (err.code === 'auth/email-already-in-use') {
+        setError('Ya existe una cuenta registrada con este correo. Por favor, utiliza otro correo.');
+      } else {
+        setError('Error al registrar: ' + err.message);
+      }
     }
   };
 
@@ -81,7 +103,7 @@ const Registrar = () => {
 
   return (
     <div className="registrar-container">
-      {/* Imagen que redirige al index */}
+     
       <img
         src={logo}
         alt="Logo"

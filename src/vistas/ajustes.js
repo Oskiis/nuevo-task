@@ -38,11 +38,11 @@ const Ajustes = () => {
     <div className="ajustes-container">
       <h1>Ajustes</h1>
       <div className="perfil-container">
-        <img
-          src={`URL_DE_TU_STORAGE/${usuario.fotoPerfil}`} // Asegúrate de que la URL sea correcta
-          alt="Foto de perfil"
-          className="perfil-imagen"
-        />
+      <img
+              src={usuario.fotoPerfil}
+              alt="Foto de perfil"
+              className="perfil-imagen"
+            />
         <div className="usuario-info">
           <span className="usuario-email">{usuario.email}</span>
           <br/>
