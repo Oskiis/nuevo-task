@@ -10,10 +10,18 @@ import Login from './vistas/login';
 import NewTask from './vistas/newtask';
 import Notas from './vistas/notas';
 import Notaseditar from './vistas/notaseditar';
+import Noti from './vistas/noti';
 import Notificaciones from './vistas/notificaciones';
 import Registrar from './vistas/registrar';
 import RellenarDatos from './vistas/rellenarDatos';
 import RestablecerContraseña from './vistas/restablecerContraseña';
+
+
+import Acerca from './vistas/acerca';
+
+import Privacidad from './vistas/privacidad';
+
+
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -64,6 +72,12 @@ ReactDOM.render(
       <Route path="/rellenarDatos" element={<RellenarDatos />} />
       <Route path="/restablecerContraseña" element={<RestablecerContraseña />} />
       <Route path="/notificaciones" element={<Notificaciones />} />
+      <Route path="/noti" element={<Noti />} />
+
+      <Route path="/privacidad" element={<Privacidad />} />
+      <Route path="/acerca" element={<Acerca />} />
+    
+
     </Routes>
   </Router>,
   document.getElementById('root')

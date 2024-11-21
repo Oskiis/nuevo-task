@@ -143,9 +143,9 @@ const Notas = () => {
 
       <nav className={`menu ${menuOpen ? 'open' : ''}`}>
         <ul>
-          <li><Link to="/">Inicio</Link></li>
+          <li><Link to="/notas">Inicio</Link></li>
           <li><Link to="/calendario" state={{ uid }}>Calendario</Link></li>
-          <li><Link to="/notificaciones" state={{ uid }}>Notificaciones</Link></li>
+          <li><Link to="/noti" state={{ uid }}>Notificaciones</Link></li>
           <li><Link to="/ajustes" state={{ uid }}>Ajustes</Link></li>
         </ul>
       </nav>

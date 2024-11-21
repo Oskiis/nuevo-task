@@ -1,12 +1,13 @@
+
 import { getAuth, signOut } from 'firebase/auth'; // Para autenticación
-import { collection, doc, getDoc, getDocs, getFirestore, query, where } from 'firebase/firestore'; // Para Firestore
+import { doc, getDoc, getFirestore } from 'firebase/firestore'; // Para Firestore
 import React, { useEffect, useState } from 'react';
-import Calendar from 'react-calendar'; // Componente de calendario
 import 'react-calendar/dist/Calendar.css'; // Estilos del calendario
 import { Link, useLocation, useNavigate } from 'react-router-dom'; // Navegación
-import './calendario.css'; // Estilos personalizados
+import './ajustes.css'; // Estilos personalizados
 
-const Calendario = () => {
+
+const Acerca = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const uid = location.state?.uid;
@@ -20,27 +21,7 @@ const Calendario = () => {
   const db = getFirestore();
   const auth = getAuth();
 
-  // Obtener tareas del usuario
-  useEffect(() => {
-    if (!uid) return;
 
-    const obtenerTareas = async () => {
-      try {
-        const q = query(collection(db, 'tareas'), where('uid', '==', uid));
-        const querySnapshot = await getDocs(q);
-        const tareasUsuario = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-          fechaVencimiento: new Date(doc.data().fechaVencimiento),
-        }));
-        setTareas(tareasUsuario);
-      } catch (error) {
-        console.error("Error al obtener tareas:", error);
-      }
-    };
-
-    obtenerTareas();
-  }, [uid]);
 
   // Obtener datos del usuario
   useEffect(() => {
@@ -59,33 +40,8 @@ const Calendario = () => {
     fetchUsuario();
   }, [auth.currentUser]);
 
-  // Asignar color según la proximidad de la fecha
-  const getTaskColor = (fechaVencimiento) => {
-    const diffInDays = Math.floor((fechaVencimiento - new Date()) / (1000 * 60 * 60 * 24));
-    if (diffInDays < 1) return 'rojo'; // Vence hoy o ya venció
-    if (diffInDays <= 2) return 'rojo';
-    if (diffInDays <= 5) return 'amarillo';
-    return 'verde';
-  };
 
-  // Renderizar contenido de los días en el calendario
-  const renderDay = ({ date, view }) => {
-    if (view === 'month') {
-      const tareasDia = tareas.filter(tarea =>
-        tarea.fechaVencimiento.toDateString() === date.toDateString()
-      );
 
-      return (
-        <div>
-          {tareasDia.map(tarea => (
-            <p key={tarea.id} className={`tarea-${getTaskColor(tarea.fechaVencimiento)}`}>
-              {tarea.titulo}
-            </p>
-          ))}
-        </div>
-      );
-    }
-  };
 
   // Cerrar sesión
   const handleCerrarSesion = () => {
@@ -114,7 +70,7 @@ const Calendario = () => {
             <div className="bar"></div>
             <div className="bar"></div>
           </div>
-          <h1 className="header-title">Calendario de Actividades</h1>
+          <h1 className="header-title">Acerca de </h1>
         </div>
         <div className="header-right">
           {usuario && (
@@ -143,23 +99,15 @@ const Calendario = () => {
 
       <nav className={`menu ${menuOpen ? 'open' : ''}`}>
         <ul>
-          <li><Link to="/">Inicio</Link></li>
-          <li><Link to="/calendario" state={{ uid }}>Calendario</Link></li>
-          <li><Link to="/noti" state={{ uid }}>Notificaciones</Link></li>
-          <li><Link to="/ajustes" state={{ uid }}>Ajustes</Link></li>
+          
+          <li><Link to="/notas" state={{ uid }}>Notas y Tareas</Link></li>
+          <li><Link to="/informacionP">Informacion Personal</Link></li>
+          <li><Link to="/privacidad" state={{ uid }}>Privacidad y seguridad</Link></li>
+          <li><Link to="/acerca" state={{ uid }}>Acerca de</Link></li>
         </ul>
       </nav>
 
       {/* Contenedor del calendario */}
-      <div className="calendario-container">
-        <h1>Calendario</h1>
-        <Calendar
-          onChange={setDate}
-          value={date}
-          tileContent={renderDay}
-          locale="es-ES"
-        />
-      </div>
       <div className="crear-tarea">
         <button className="crear-tarea-button" onClick={() => navigate('/notas', { state: { uid } })}>
           ⇚
@@ -169,4 +117,4 @@ const Calendario = () => {
   );
 };
 
-export default Calendario;
+export default Acerca;
