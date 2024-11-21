@@ -1,8 +1,9 @@
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { createUserWithEmailAndPassword, GoogleAuthProvider, sendEmailVerification, signInWithPopup } from 'firebase/auth';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import googleLogo from '../assets/images/Logo-google-icon-PNG.png';
 import logo from '../assets/images/logo.jpeg'; // Importa tu logo
 import { auth, db } from '../config/firebase';
 import './registrar.css';
@@ -18,6 +19,7 @@ const Registrar = () => {
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
   const storage = getStorage();
+  const googleProvider = new GoogleAuthProvider();
 
   const handleRegistro = async (e) => {
     e.preventDefault();
@@ -55,6 +57,25 @@ const Registrar = () => {
       }, 3000);
     } catch (err) {
       setError('Error al registrar: ' + err.message);
+    }
+  };
+
+
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+
+      const userDocRef = doc(db, 'Usuarios', user.uid);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        navigate('/notas');
+      } else {
+        navigate('/rellenarDatos');
+      }
+    } catch (err) {
+      setError('Error al iniciar sesión con Google.');
     }
   };
 
@@ -122,6 +143,13 @@ const Registrar = () => {
         />
         <button type="submit">Registrar</button>
       </form>
+
+      <p className="or-text">- o -</p>
+
+      <button onClick={handleGoogleLogin} className="google-login-button">
+        <img src={googleLogo} alt="Google logo" className="google-icon" />
+        Iniciar Sesión con Google
+      </button>
     </div>
   );
 };

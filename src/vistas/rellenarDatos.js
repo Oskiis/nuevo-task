@@ -17,7 +17,14 @@ const RellenarDatos = () => {
     e.preventDefault();
     const user = auth.currentUser;
 
+    // Validar que todos los campos estén llenos
+    if (!nombre || !apellidoPaterno || !apellidoMaterno) {
+      setError('Es necesario que llene todos los datos para avanzar.');
+      return;
+    }
+
     try {
+      setError(''); // Limpiar cualquier error previo
       let fotoPerfilURL = null;
 
       if (fotoPerfil) {
