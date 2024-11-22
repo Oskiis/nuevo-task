@@ -74,12 +74,18 @@ const Calendario = () => {
       const tareasDia = tareas.filter(tarea =>
         tarea.fechaVencimiento.toDateString() === date.toDateString()
       );
-
+  
       return (
         <div>
           {tareasDia.map(tarea => (
             <p key={tarea.id} className={`tarea-${getTaskColor(tarea.fechaVencimiento)}`}>
-              {tarea.titulo}
+              <Link
+                to="/notaseditar"
+                state={{ tarea }}
+                className="enlace-tarea"
+              >
+                {tarea.titulo}
+              </Link>
             </p>
           ))}
         </div>

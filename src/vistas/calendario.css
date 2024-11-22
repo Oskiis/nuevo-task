@@ -280,3 +280,12 @@ h1 {
 
 
 
+.enlace-tarea {
+  text-decoration: none;
+  color: inherit;
+}
+
+.enlace-tarea:hover {
+  text-decoration: underline;
+  color: #007bff; /* Un color llamativo para resaltar el enlace */
+}
