@@ -101,9 +101,10 @@ const Acerca = () => {
         <ul>
           
           <li><Link to="/notas" state={{ uid }}>Notas y Tareas</Link></li>
-          <li><Link to="/informacionP">Informacion Personal</Link></li>
+          <li><Link to="/ajustes">Informacion Personal</Link></li>
           <li><Link to="/privacidad" state={{ uid }}>Privacidad y seguridad</Link></li>
           <li><Link to="/acerca" state={{ uid }}>Acerca de</Link></li>
+          <button className="cerrar-sesion-btn" onClick={handleCerrarSesion}>Cerrar sesión</button>
         </ul>
       </nav>
 
