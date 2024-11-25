@@ -84,8 +84,7 @@ input[type="file"] {
 
 
 .color-selector {
-  display: flex;
-  gap: 10px;
+  display: flex;gap: 60px;
   margin: 10px 0;
 }
 
@@ -94,10 +93,10 @@ input[type="file"] {
   height: 30px;
   border-radius: 50%;
   cursor: pointer;
-  border: 2px solid transparent;
+  border: 3px solid #000000;
   transition: border 0.3s ease;
 }
 
 .color-circle.selected {
-  border: 2px solid #000;
+  border: 3px solid #ff0000;
 }

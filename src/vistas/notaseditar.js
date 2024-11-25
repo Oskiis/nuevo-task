@@ -22,9 +22,19 @@ const NotasEditar = () => {
   const [estado, setEstado] = useState('en proceso');
   const [imagen, setImagen] = useState(null);
   const [imageUrl, setImageUrl] = useState('');
-  const [fechaCompletado, setFechaCompletado] = useState(null);  // Nueva variable
+  const [fechaCompletado, setFechaCompletado] = useState(null);
+  const [color, setColor] = useState('#ffffff'); // Color inicial
   const db = getFirestore();
   const storage = getStorage();
+
+  const colores = [
+    { name: 'rojo', hex: '#fadbd8' },
+    { name: 'azul', hex: '#befffc' },
+    { name: 'verde', hex: '#d8fdd7' },
+    { name: 'amarillo', hex: '#f9fdd7' },
+    { name: 'lila', hex: '#e9d7fd' },
+    { name: 'anaranjado', hex: '#ffebc3' },
+  ];
 
   useEffect(() => {
     const cargarDatosTarea = async () => {
@@ -39,7 +49,8 @@ const NotasEditar = () => {
         setPrioridad(data.prioridad);
         setCategoria(data.categoria);
         setEstado(data.estado);
-        setFechaCompletado(data.fechaCompletado || null); // Recuperar fechaCompletado
+        setColor(data.color || '#ffffff'); // Cargar color existente o blanco por defecto
+        setFechaCompletado(data.fechaCompletado || null);
         if (data.imageUrl) {
           setImageUrl(data.imageUrl);
         }
@@ -64,8 +75,7 @@ const NotasEditar = () => {
       }
 
       const tareaRef = doc(db, 'tareas', tarea.id);
-      
-      // Si el estado es finalizado o completado, agregar la fecha de completado
+
       let updatedFechaCompletado = fechaCompletado;
       if (estado === 'finalizado' || estado === 'completado') {
         updatedFechaCompletado = dayjs().toISOString();
@@ -78,8 +88,9 @@ const NotasEditar = () => {
         prioridad,
         categoria,
         estado,
+        color, // Guardar el color seleccionado
         imageUrl: updatedImageUrl,
-        fechaCompletado: updatedFechaCompletado,  // Guardar la fecha de completado
+        fechaCompletado: updatedFechaCompletado,
       });
 
       navigate('/notas', { state: { uid: tarea.uid } });
@@ -145,12 +156,24 @@ const NotasEditar = () => {
           value={estado}
           onChange={(e) => setEstado(e.target.value)}
           required
-          disabled={estado === 'finalizado' || estado === 'completado'}  // Deshabilitar si está finalizado o completado
+          disabled={estado === 'finalizado' || estado === 'completado'}
         >
           <option value="sin empezar">Sin empezar</option>
           <option value="en proceso">En proceso</option>
           <option value="finalizado">Finalizado</option>
         </select>
+
+        <label>Selecciona un Color</label>
+        <div className="color-selector">
+          {colores.map((c) => (
+            <div
+              key={c.name}
+              className={`color-circle ${color === c.hex ? 'selected' : ''}`}
+              style={{ backgroundColor: c.hex }}
+              onClick={() => setColor(c.hex)}
+            />
+          ))}
+        </div>
 
         <label>Agregar Imagen</label>
         <input
