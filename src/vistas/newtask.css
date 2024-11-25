@@ -100,3 +100,27 @@ input[type="file"] {
 .color-circle.selected {
   border: 3px solid #ff0000;
 }
+
+
+.crear-tarea {
+  position: fixed;
+  top: 95%; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  z-index: 1000; 
+}
+
+.crear-tarea button {
+  background-color: #87ceeb; 
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.crear-tarea button:hover {
+  background-color: #68b0d8; 
+}

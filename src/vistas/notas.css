@@ -139,9 +139,19 @@
   margin-bottom: 100px; 
   padding: 20px;
 }
-.tareas-list {
-  margin-top: 80px; 
-  margin-bottom: 100px; 
+@media (max-width: 768px) {
+  .tareas-list {
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas de igual tamaño */
+    gap: 10px; /* Espacio reducido entre columnas y filas */
+    padding: 10px; /* Menos relleno */
+    margin-top: 50px; /* Margen superior reducido */
+    margin-bottom: 50px; /* Margen inferior reducido */
+  }
+  .header-title {
+    margin-left: 20px;
+    font-size: 1rem;
+    font-family: cursive;
+  }
 }
 
 .tarea {
@@ -223,6 +233,14 @@
 }
 
 .notas-container {
+  padding-top: 20px; 
+  padding-bottom: 100px; /* Espacio para el menú inferior */
+  box-sizing: border-box;
+  height: calc(100vh - 200px); /* Ajusta según la altura del header */
+  
+}
+
+.notas-containeres {
   padding-top: 200px; 
   box-sizing: border-box;
 }

@@ -91,7 +91,7 @@ const Ajustes = () => {
   const handleMouseLeave = () => setTimeout(() => setMostrarPerfil(false), 5000);
 
   return (
-    <div className="notas-container">
+    <div className="notas-containeres">
       {/* Menú de navegación */}
       <div className={`menu-overlay ${menuOpen ? 'open' : ''}`} onClick={() => setMenuOpen(!menuOpen)}></div>
       <header className="header">

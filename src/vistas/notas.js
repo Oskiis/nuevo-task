@@ -142,7 +142,7 @@ const Notas = () => {
         </div>
       </header>
 
-      {/* Cuadro redondeado del perfil */}
+
       {mostrarPerfil && usuario && (
         <div className="perfil-popup">
           <p>Correo electrónico: {usuario.email}</p>
@@ -163,7 +163,7 @@ const Notas = () => {
         </ul>
       </nav>
 
-      {/* Filtros de tareas */}
+
       <div className="filtros">
         <select value={prioridad} onChange={(e) => setPrioridad(e.target.value)}>
           <option value="">Prioridad</option>
@@ -176,6 +176,21 @@ const Notas = () => {
           <option value="casa">Casa</option>
           <option value="trabajo">Trabajo</option>
           <option value="estudio">Estudio</option>
+          <option value="salud">Salud</option>
+          <option value="finanzas">Finanzas</option>
+          <option value="compras">Compras</option>
+          <option value="familia">Familia</option>
+          <option value="social">Social</option>
+          <option value="hobbies">Hobbies</option>
+          <option value="viajes">Viajes</option>
+          <option value="voluntariado">Voluntariado</option>
+          <option value="proyectos personales">Proyectos personales</option>
+          <option value="auto-cuidado">Auto-cuidado</option>
+          <option value="tecnología">Tecnología</option>
+          <option value="mascotas">Mascotas</option>
+          <option value="eventos especiales">Eventos especiales</option>
+          <option value="reparaciones y mantenimiento">Reparaciones y mantenimiento</option>
+          <option value="planificación">Planificación</option>
         </select>
         <select value={estado} onChange={(e) => setEstado(e.target.value)}>
           <option value="">Estado</option>
@@ -185,14 +200,13 @@ const Notas = () => {
         </select>
       </div>
 
-      {/* Lista de tareas */}
       <div className="tareas-list">
         {tareas.length > 0 ? (
           tareas.map((tarea) => (
             <div
               key={tarea.id}
               className="tarea"
-              style={{ backgroundColor: tarea.color || '#ffffff' }} // Usa el color de la tarea o un valor por defecto
+              style={{ backgroundColor: tarea.color || '#ffffff' }} 
               onClick={() => handleTaskClick(tarea)}
               onContextMenu={(e) => {
                 e.preventDefault();
