@@ -124,3 +124,58 @@ input[type="file"] {
 .crear-tarea button:hover {
   background-color: #68b0d8; 
 }
+
+
+@media (max-width: 768px) {
+  .new-task-container {
+    padding: 15px;
+    max-width: 90%; /* Reduce el ancho máximo */
+    margin: 20px auto;
+    box-shadow: none; /* Opcional: eliminar la sombra para un diseño más plano */
+  }
+
+  h1 {
+    font-size: 20px; /* Ajusta el tamaño del título */
+    margin-bottom: 15px;
+  }
+
+  label {
+    font-size: 14px; /* Reduce el tamaño del texto */
+    margin-right: 10px; /* Menor separación lateral */
+  }
+
+  input[type="text"],
+  textarea,
+  select,
+  .MuiInputBase-root {
+    width: 100%; /* Asegura que ocupe todo el ancho disponible */
+    font-size: 12px; /* Ajusta el tamaño de la fuente */
+  }
+
+  .agregar-tarea-button {
+    padding: 10px 20px; /* Reduce el tamaño del botón */
+    font-size: 14px;
+  }
+
+  .color-selector {
+    gap: 30px; /* Reduce el espacio entre elementos */
+    margin: 5px 0;
+  }
+
+  .color-circle {
+    width: 25px; /* Disminuye el tamaño del círculo */
+    height: 25px;
+  }
+
+  .crear-tarea {
+    top: auto;
+    bottom: 10%; /* Mueve el botón un poco más arriba */
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
+  .crear-tarea button {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+}

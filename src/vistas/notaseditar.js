@@ -142,14 +142,32 @@ const NotasEditar = () => {
           <option value="Baja">Baja</option>
         </select>
 
+
         <label>Categoría</label>
-        <input
-          type="text"
-          placeholder="Ingresa la categoría"
+        <select
           value={categoria}
           onChange={(e) => setCategoria(e.target.value)}
           required
-        />
+        >
+            <option value="casa">Casa</option>
+            <option value="trabajo">Trabajo</option>
+            <option value="estudio">Estudio</option>
+            <option value="salud">Salud</option>
+            <option value="finanzas">Finanzas</option>
+            <option value="compras">Compras</option>
+            <option value="familia">Familia</option>
+            <option value="social">Social</option>
+            <option value="hobbies">Hobbies</option>
+            <option value="viajes">Viajes</option>
+            <option value="voluntariado">Voluntariado</option>
+            <option value="proyectos personales">Proyectos personales</option>
+            <option value="auto-cuidado">Auto-cuidado</option>
+            <option value="tecnología">Tecnología</option>
+            <option value="mascotas">Mascotas</option>
+            <option value="eventos especiales">Eventos especiales</option>
+            <option value="reparaciones y mantenimiento">Reparaciones y mantenimiento</option>
+            <option value="planificación">Planificación</option>
+        </select>
 
         <label>Estado</label>
         <select
