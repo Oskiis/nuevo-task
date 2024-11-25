@@ -127,11 +127,18 @@ input[type="file"] {
 
 
 @media (max-width: 768px) {
+  body {
+    overflow-y: auto; /* Asegura que siempre haya scroll si el contenido es más largo */
+    margin: 0;
+  }
+
   .new-task-container {
     padding: 15px;
     max-width: 90%; /* Reduce el ancho máximo */
     margin: 20px auto;
-    box-shadow: none; /* Opcional: eliminar la sombra para un diseño más plano */
+    box-shadow: none; /* Opcional: elimina la sombra */
+    max-height: calc(100vh - 40px); /* Limita la altura para que siempre se ajuste a la pantalla */
+    overflow-y: auto; /* Permite el scroll si hay contenido extra */
   }
 
   h1 {
@@ -179,3 +186,4 @@ input[type="file"] {
     font-size: 14px;
   }
 }
+
