@@ -97,7 +97,12 @@ const Login = () => {
       >
         ¿Olvidaste tu contraseña?
       </p>
+      <div className="back-container" onClick={() => navigate('/')}>
+        <span className="back-arrow">←</span>
+        <span className="back-text">Volver</span>
+      </div>
     </div>
+    
   );
 };
 

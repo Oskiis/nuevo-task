@@ -1,7 +1,7 @@
 .password-reset-container {
-    max-width: 400px;
+    max-width: 900%;
     margin: auto;
-    padding: 20px;
+    padding: 60px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
