@@ -47,4 +47,42 @@
   }
 
   
+  @media (max-width: 768px) {
+    body {
+      overflow-y: auto; /* Asegura que siempre haya scroll vertical si es necesario */
+      margin: 0;
+    }
+  
+    .notas-editar-container {
+      max-width: 90%; /* Reduce el ancho máximo para pantallas pequeñas */
+      margin: 20px auto;
+      padding: 15px; /* Reduce el padding para ahorrar espacio */
+      box-shadow: none; /* Elimina la sombra para un diseño más limpio */
+      max-height: calc(100vh - 40px); /* Limita la altura para que no exceda la pantalla */
+      overflow-y: auto; /* Permite scroll interno si el contenido es demasiado grande */
+    }
+  
+    .notas-editar-container h1 {
+      font-size: 18px; /* Reduce el tamaño del título */
+      margin-bottom: 15px;
+    }
+  
+    .notas-editar-container label {
+      font-size: 14px; /* Reduce el tamaño del texto */
+      margin: 8px 0 4px;
+    }
+  
+    .notas-editar-container input,
+    .notas-editar-container select,
+    .notas-editar-container textarea {
+      font-size: 12px; /* Ajusta el tamaño de la fuente */
+      padding: 8px; /* Reduce el padding */
+      margin-bottom: 10px; /* Reduce el margen inferior */
+    }
+  
+    .notas-editar-container .editar-tarea-button {
+      font-size: 14px; /* Reduce el tamaño de la fuente del botón */
+      padding: 10px 15px; /* Ajusta el tamaño del botón */
+    }
+  }
   
