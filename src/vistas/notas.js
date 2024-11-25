@@ -1,7 +1,16 @@
-import { getAuth, signOut } from 'firebase/auth'; // Para cerrar sesión
-import { collection, doc, getDoc, getDocs, getFirestore, query, where } from 'firebase/firestore';
+import { getAuth, signOut } from 'firebase/auth';
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+  query,
+  where,
+} from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './notas.css';
 
 const Notas = () => {
@@ -16,11 +25,10 @@ const Notas = () => {
   const [estado, setEstado] = useState('');
   const [busqueda, setBusqueda] = useState('');
   const [usuario, setUsuario] = useState(null);
-  const [mostrarPerfil, setMostrarPerfil] = useState(false); 
+  const [mostrarPerfil, setMostrarPerfil] = useState(false);
   const db = getFirestore();
   const auth = getAuth();
 
-  // Cargar las tareas
   useEffect(() => {
     if (!uid) {
       navigate('/');
@@ -30,7 +38,6 @@ const Notas = () => {
     fetchUsuario();
   }, [db, uid, prioridad, categoria, estado, busqueda, navigate]);
 
-  // Cargar usuario desde Firestore
   const fetchUsuario = async () => {
     const user = auth.currentUser;
     if (user) {
@@ -39,7 +46,6 @@ const Notas = () => {
     }
   };
 
-  // Función para obtener las tareas
   const obtenerTareas = async () => {
     let q = query(collection(db, 'tareas'), where('uid', '==', uid));
     if (prioridad) q = query(q, where('prioridad', '==', prioridad));
@@ -47,7 +53,10 @@ const Notas = () => {
     if (estado) q = query(q, where('estado', '==', estado));
 
     const querySnapshot = await getDocs(q);
-    let tareasUsuario = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    let tareasUsuario = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
 
     if (busqueda) {
       const busquedaLower = busqueda.toLowerCase();
@@ -59,42 +68,49 @@ const Notas = () => {
     setTareas(tareasUsuario);
   };
 
-  // Función para manejar clic en la tarea
   const handleTaskClick = (tarea) => {
     navigate('/notaseditar', { state: { tarea } });
   };
 
-  // Función para manejar la búsqueda
+  const handleTaskDelete = async (tareaId) => {
+    if (window.confirm('¿Estás seguro? No hay vuelta atrás')) {
+      try {
+        await deleteDoc(doc(db, 'tareas', tareaId));
+        setTareas((prevTareas) => prevTareas.filter((tarea) => tarea.id !== tareaId));
+        console.log('Tarea eliminada con éxito');
+      } catch (error) {
+        console.error('Error al eliminar la tarea:', error);
+      }
+    }
+  };
+
   const handleBusquedaChange = (e) => {
     setBusqueda(e.target.value);
   };
 
-  // Función para manejar el cierre de sesión
   const handleCerrarSesion = () => {
-    signOut(auth).then(() => {
-      console.log('Sesión cerrada');
-      navigate('/');
-    }).catch((error) => {
-      console.error('Error al cerrar sesión:', error);
-    });
+    signOut(auth)
+      .then(() => {
+        console.log('Sesión cerrada');
+        navigate('/');
+      })
+      .catch((error) => {
+        console.error('Error al cerrar sesión:', error);
+      });
   };
 
-  // Mostrar el cuadro del perfil cuando se pase el ratón
   const handleMouseEnter = () => {
     setMostrarPerfil(true);
   };
 
-  // Ocultar el cuadro del perfil cuando el ratón se vaya
   const handleMouseLeave = () => {
     setTimeout(() => {
       setMostrarPerfil(false);
-    }, 5000); 
+    }, 5000);
   };
-  
+
   return (
     <div className="notas-container">
-      {/* Menú de hamburguesa */}
-      <div className={`menu-overlay ${menuOpen ? 'open' : ''}`} onClick={() => setMenuOpen(!menuOpen)}></div>
       <header className="header">
         <div className="header-left">
           <div className="menu-icon" onClick={() => setMenuOpen(!menuOpen)}>
@@ -122,14 +138,13 @@ const Notas = () => {
               src={usuario.fotoPerfil}
               alt="Foto de perfil"
               className="perfil-imagen"
-              onMouseEnter={handleMouseEnter}  // Mostrar cuadro al pasar el ratón
-              onMouseLeave={handleMouseLeave}  // Ocultar cuadro al dejar el ratón
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
             />
           )}
         </div>
       </header>
 
-      {/* Cuadro redondeado del perfil */}
       {mostrarPerfil && usuario && (
         <div className="perfil-popup">
           <p>Correo electrónico: {usuario.email}</p>
@@ -137,20 +152,12 @@ const Notas = () => {
             <img src={usuario.fotoPerfil} alt="Foto de perfil" />
           </div>
           <p>Hola, {usuario.nombre}</p>
-          <button className="cerrar-sesion-btn" onClick={handleCerrarSesion}>Cerrar sesión</button>
+          <button className="cerrar-sesion-btn" onClick={handleCerrarSesion}>
+            Cerrar sesión
+          </button>
         </div>
       )}
 
-      <nav className={`menu ${menuOpen ? 'open' : ''}`}>
-        <ul>
-          <li><Link to="/notas">Inicio</Link></li>
-          <li><Link to="/calendario" state={{ uid }}>Calendario</Link></li>
-          <li><Link to="/noti" state={{ uid }}>Notificaciones</Link></li>
-          <li><Link to="/ajustes" state={{ uid }}>Ajustes</Link></li>
-        </ul>
-      </nav>
-
-      {/* Filtros de tareas */}
       <div className="filtros">
         <select value={prioridad} onChange={(e) => setPrioridad(e.target.value)}>
           <option value="">Prioridad</option>
@@ -163,6 +170,21 @@ const Notas = () => {
           <option value="casa">Casa</option>
           <option value="trabajo">Trabajo</option>
           <option value="estudio">Estudio</option>
+          <option value="salud">Salud</option>
+          <option value="finanzas">Finanzas</option>
+          <option value="compras">Compras</option>
+          <option value="familia">Familia</option>
+          <option value="social">Social</option>
+          <option value="hobbies">Hobbies</option>
+          <option value="viajes">Viajes</option>
+          <option value="voluntariado">Voluntariado</option>
+          <option value="proyectos personales">Proyectos personales</option>
+          <option value="auto-cuidado">Auto-cuidado</option>
+          <option value="tecnología">Tecnología</option>
+          <option value="mascotas">Mascotas</option>
+          <option value="eventos especiales">Eventos especiales</option>
+          <option value="reparaciones y mantenimiento">Reparaciones y mantenimiento</option>
+          <option value="planificación">Planificación</option>
         </select>
         <select value={estado} onChange={(e) => setEstado(e.target.value)}>
           <option value="">Estado</option>
@@ -172,33 +194,48 @@ const Notas = () => {
         </select>
       </div>
 
-      {/* Lista de tareas */}
       <div className="tareas-list">
-        {tareas.length > 0 ? (
-          tareas.map((tarea) => (
-            <div
-              key={tarea.id}
-              className="tarea"
-              onClick={() => handleTaskClick(tarea)}
-            >
-              <div className="tarea-imagen">
-                {tarea.imageUrl ? <img src={tarea.imageUrl} alt="Imagen de la tarea" /> : <p>Sin imagen</p>}
-              </div>
-              <div className="tarea-info">
-                <h3>{tarea.titulo}</h3>
-                <p>{tarea.descripcion.length > 100 ? tarea.descripcion.slice(0, 100) + '...' : tarea.descripcion}</p>
-                <span className="tarea-prioridad">{tarea.prioridad}</span>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p>No se encontraron tareas.</p>
-        )}
+  {tareas.length > 0 ? (
+    tareas.map((tarea) => (
+      <div
+        key={tarea.id}
+        className="tarea"
+        style={{ backgroundColor: tarea.color || '#ffffff' }} // Usa el color de la tarea o un valor por defecto
+        onClick={() => handleTaskClick(tarea)}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          handleTaskDelete(tarea.id);
+        }}
+      >
+        <div className="tarea-imagen">
+          {tarea.imageUrl ? (
+            <img src={tarea.imageUrl} alt="Imagen de la tarea" />
+          ) : (
+            <p>Sin imagen</p>
+          )}
+        </div>
+        <div className="tarea-info">
+          <h3>{tarea.titulo}</h3>
+          <p>
+            {tarea.descripcion.length > 100
+              ? tarea.descripcion.slice(0, 100) + '...'
+              : tarea.descripcion}
+          </p>
+          <span className="tarea-prioridad">{tarea.prioridad}</span>
+        </div>
       </div>
+    ))
+  ) : (
+    <p>No se encontraron tareas.</p>
+  )}
+</div>
 
-      {/* Crear nueva tarea */}
+
       <div className="crear-tarea">
-        <button className="crear-tarea-button" onClick={() => navigate('/newtask', { state: { uid } })}>
+        <button
+          className="crear-tarea-button"
+          onClick={() => navigate('/newtask', { state: { uid } })}
+        >
           + Crear nueva tarea
         </button>
       </div>

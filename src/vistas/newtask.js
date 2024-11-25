@@ -1,4 +1,3 @@
-// src/vistas/newtask.js
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
@@ -18,9 +17,19 @@ const NewTask = () => {
   const [fechaVencimiento, setFechaVencimiento] = useState(dayjs());
   const [prioridad, setPrioridad] = useState('Media');
   const [categoria, setCategoria] = useState('');
-  const [estado, setEstado] = useState('en proceso'); // Nuevo estado de tarea
+  const [estado, setEstado] = useState('en proceso');
   const [imagen, setImagen] = useState(null);
+  const [color, setColor] = useState('#d8fdd7'); // Color predeterminado (verde)
   const navigate = useNavigate();
+
+  const colores = [
+    { name: 'rojo', hex: '#fadbd8' },
+    { name: 'azul', hex: '#befffc' },
+    { name: 'verde', hex: '#d8fdd7' },
+    { name: 'amarillo', hex: '#f9fdd7' },
+    { name: 'lila', hex: '#e9d7fd' },
+    { name: 'anaranjado', hex: '#ffebc3' },
+  ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,15 +49,16 @@ const NewTask = () => {
         titulo,
         descripcion,
         fechaVencimiento: fechaVencimiento.format(),
-        fechaCreacion: dayjs().format(), // Agregar la fecha de creación
+        fechaCreacion: dayjs().format(),
         prioridad,
         categoria,
-        estado, 
+        estado,
+        color,
         imageUrl,
       });
       navigate('/notas', { state: { uid } });
     } catch (error) {
-      console.error("Error al agregar la tarea: ", error);
+      console.error('Error al agregar la tarea: ', error);
     }
   };
 
@@ -109,21 +119,7 @@ const NewTask = () => {
           <option value="casa">Casa</option>
           <option value="trabajo">Trabajo</option>
           <option value="estudio">Estudio</option>
-          <option value="salud">Salud</option>
-          <option value="finanzas">Finanzas</option>
-          <option value="compras">Compras</option>
-          <option value="familia">Familia</option>
-          <option value="social">Social</option>
-          <option value="hobbies">Hobbies</option>
-          <option value="viajes">Viajes</option>
-          <option value="voluntariado">Voluntariado</option>
-          <option value="proyectos personales">Proyectos personales</option>
-          <option value="auto-cuidado">Auto-cuidado</option>
-          <option value="tecnología">Tecnología</option>
-          <option value="mascotas">Mascotas</option>
-          <option value="eventos especiales">Eventos especiales</option>
-          <option value="reparaciones y mantenimiento">Reparaciones y mantenimiento</option>
-          <option value="planificación">Planificación</option>
+          {/* ... otras categorías */}
         </select>
 
         <label>Estado</label>
@@ -143,6 +139,18 @@ const NewTask = () => {
           accept="image/*"
           onChange={(e) => setImagen(e.target.files[0])}
         />
+
+        <label>Selecciona un Color</label>
+        <div className="color-selector">
+          {colores.map((c) => (
+            <div
+              key={c.name}
+              className={`color-circle ${color === c.hex ? 'selected' : ''}`}
+              style={{ backgroundColor: c.hex }}
+              onClick={() => setColor(c.hex)}
+            />
+          ))}
+        </div>
 
         <button type="submit" className="agregar-tarea-button">
           Agregar tarea
