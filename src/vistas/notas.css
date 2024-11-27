@@ -288,3 +288,14 @@
 }
 
 
+.icono-notificaciones {
+  font-size: 1.5rem;
+  margin-right: 10px;
+  cursor: pointer;
+  color: #555; /* Cambia según tu diseño */
+  transition: color 0.3s;
+}
+
+.icono-notificaciones:hover {
+  color: #007bff; /* Cambia al pasar el ratón */
+}

@@ -296,13 +296,14 @@
 }
 
 .notificacion-reciente {
-  background-color: #fff3cd; /* Amarillo claro */
-  border-left: 5px solid orange;
+  background-color: #cce5ff; /* Azul claro */
+  border-left: 5px solid blue;
 }
 
 .notificacion-proxima {
-  background-color: #cce5ff; /* Azul claro */
-  border-left: 5px solid blue;
+  background-color: #fff3cd; /* Amarillo claro */
+  border-left: 5px solid orange;
+  
 }
 
 /* Estilo para los títulos dentro de las notificaciones */

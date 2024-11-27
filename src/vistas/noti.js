@@ -13,7 +13,7 @@ import {
 } from 'firebase/firestore'; // Para Firestore
 import React, { useEffect, useState } from 'react';
 import 'react-calendar/dist/Calendar.css'; // Estilos del calendario
-import { Link, useLocation, useNavigate } from 'react-router-dom'; // Navegación
+import { useLocation, useNavigate } from 'react-router-dom'; // Navegación
 import './noti.css'; // Estilos personalizados
 
 const Notificaciones = () => {
@@ -133,11 +133,7 @@ const Notificaciones = () => {
     <div className="notas-container">
       <header className="header">
         <div className="header-left">
-          <div className="menu-icon" onClick={() => setMenuOpen(!menuOpen)}>
-            <div className="bar"></div>
-            <div className="bar"></div>
-            <div className="bar"></div>
-          </div>
+
           <h1 className="header-title">Notificaciones</h1>
         </div>
         <div className="header-right">
@@ -164,14 +160,7 @@ const Notificaciones = () => {
         </div>
       )}
 
-      <nav className={`menu ${menuOpen ? 'open' : ''}`}>
-        <ul>
-          <li><Link to="/notas">Inicio</Link></li>
-          <li><Link to="/calendario" state={{ uid }}>Calendario</Link></li>
-          <li><Link to="/noti" state={{ uid }}>Notificaciones</Link></li>
-          <li><Link to="/ajustes" state={{ uid }}>Ajustes</Link></li>
-        </ul>
-      </nav>
+
 
       <div className="notificaciones-container">
         <h1>Notificaciones</h1>

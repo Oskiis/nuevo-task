@@ -131,13 +131,20 @@ const Notas = () => {
 
         <div className="header-right">
           {usuario && (
-            <img
-              src={usuario.fotoPerfil}
-              alt="Foto de perfil"
-              className="perfil-imagen"
-              onMouseEnter={handleMouseEnter}  // Mostrar cuadro al pasar el ratón
-              onMouseLeave={handleMouseLeave}  // Ocultar cuadro al dejar el ratón
-            />
+            <>
+              {/* Icono de notificaciones */}
+              <Link to="/noti" state={{ uid }}>
+                <span className="icono-notificaciones">🔔</span>
+              </Link>
+              {/* Foto de perfil */}
+              <img
+                src={usuario.fotoPerfil}
+                alt="Foto de perfil"
+                className="perfil-imagen"
+                onMouseEnter={handleMouseEnter} // Mostrar cuadro al pasar el ratón
+                onMouseLeave={handleMouseLeave} // Ocultar cuadro al dejar el ratón
+              />
+            </>
           )}
         </div>
       </header>
@@ -158,7 +165,7 @@ const Notas = () => {
         <ul>
           <li><Link to="/notas">Inicio</Link></li>
           <li><Link to="/calendario" state={{ uid }}>Calendario</Link></li>
-          <li><Link to="/noti" state={{ uid }}>Notificaciones</Link></li>
+
           <li><Link to="/ajustes" state={{ uid }}>Ajustes</Link></li>
         </ul>
       </nav>
